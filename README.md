@@ -29,7 +29,7 @@ Then, register some modules for injection:
 const { diContainer } = require('fastify-awilix')
 const { asClass, asFunction, Lifetime } = require('awilix')
 
-// <...> code from previous example goes here
+// Code from the previous example goes here
 
 diContainer.register({
   userRepository: asClass(UserRepository, {
@@ -50,7 +50,9 @@ app.addHook('onRequest', (request, reply, done) => {
 })
 ```
 
-Then you can resolve modules from app-scoped `diContainer` and request-scoped `diScope`. Note that `diScope` allows resolving all modules from the parent `diContainer` scope:
+Note that there is no strict requirement to use classes, it is also possible to register primitive values, using either `asFunction()`, or `asValue()`. Check [awilix documentation](https://github.com/jeffijoe/awilix) for more details.
+
+After all the modules are registered, they can be resolved with their dependencies injected from app-scoped `diContainer` and request-scoped `diScope`. Note that `diScope` allows resolving all modules from the parent `diContainer` scope:
 
 ```js
 app.post('/', async (req, res) => {
@@ -58,7 +60,7 @@ app.post('/', async (req, res) => {
   const userRepositoryForApp = app.diContainer.resolve('userRepository') // This returns exact same result as the previous line
   const userService = req.diScope.resolve('userService')
   
-  // Your logic goes here
+  // Logic goes here
 
   res.send({
     status: 'OK',
@@ -76,6 +78,43 @@ app.post('/', async (req, res) => {
 `disposeOnClose` - automatically invoke configured `dispose` for request-level `diScope` hooks after reply is sent.
   Disposal is triggered within `onResponse` fastify hook.
   Default value is `true`
+
+## Defining classes
+
+All dependency modules are resolved using constructor injection, with aggregated dependencies object, where keys
+of the dependencies object match keys used in registering modules:
+```js
+class UserService {
+  constructor({ userRepository }) {
+    this.userRepository = userRepository
+  }
+
+  dispose() {
+    // Disposal logic goes here
+  }
+}
+
+class UserRepository {
+  constructor() {
+    // Constructor logic goes here
+  }
+  
+  dispose() {
+    // Disposal logic goes here
+  }
+}
+
+diContainer.register({
+  userService: asClass(UserRepository, {
+    lifetime: Lifetime.SINGLETON,
+    dispose: (module) => module.dispose(),
+  }),
+  userRepository: asClass(UserRepository, {
+    lifetime: Lifetime.SINGLETON,
+    dispose: (module) => module.dispose(),
+  }),
+})      
+```
 
 ## Advanced DI configuration
 
