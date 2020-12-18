@@ -41,7 +41,7 @@ diContainer.register({
 app.addHook('onRequest', (request, reply, done) => {
   request.diScope.register({
     userService: asFunction(
-      () => { return new UserService(request.params.countryId) }, {
+      ({ userRepository }) => { return new UserService(userRepository, request.params.countryId) }, {
       lifetime: Lifetime.SCOPED,
       dispose: (module) => module.dispose(),
     }),
@@ -81,7 +81,7 @@ app.post('/', async (req, res) => {
 
 ## Defining classes
 
-All dependency modules are resolved using constructor injection, with aggregated dependencies object, where keys
+All dependency modules are resolved using either the constructor injection (for `asClass`) or the function argument (for `asFunction`), by passing the aggregated dependencies object, where keys
 of the dependencies object match keys used in registering modules:
 ```js
 class UserService {
