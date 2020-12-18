@@ -1,7 +1,7 @@
 # fastify-awilix
 
 [![NPM Version][npm-image]][npm-url]
-[![Build Status](https://github.com/fastify/fastify-awilix/workflows/ci/badge.svg)](https://github.com/fastify/fastify-awilix/actions)
+[![Build Status](https://github.com/kibertoad/fastify-awilix/workflows/ci/badge.svg)](https://github.com/kibertoad/fastify-awilix/actions)
 
 Dependency injection support for fastify framework
 
@@ -80,3 +80,8 @@ app.post('/', async (req, res) => {
 ## Advanced DI configuration
 
 For more advanced use-cases, check the official [awilix documentation](https://github.com/jeffijoe/awilix)
+
+[npm-image]: https://img.shields.io/npm/v/fastify-awilix.svg
+[npm-url]: https://npmjs.org/package/fastify-awilix
+[downloads-image]: https://img.shields.io/npm/dm/fastify-awilix.svg
+[downloads-url]: https://npmjs.org/package/fastify-awilix
