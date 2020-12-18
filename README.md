@@ -3,7 +3,7 @@
 [![NPM Version][npm-image]][npm-url]
 [![Build Status](https://github.com/kibertoad/fastify-awilix/workflows/ci/badge.svg)](https://github.com/kibertoad/fastify-awilix/actions)
 
-Dependency injection support for fastify framework
+Dependency injection support for fastify framework, using [awilix](https://github.com/jeffijoe/awilix)
 
 ## Getting started
 
