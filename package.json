@@ -1,6 +1,7 @@
 {
   "name": "fastify-awilix",
   "version": "1.0.0",
+  "description": "Dependency injection support for fastify framework",
   "license": "MIT",
   "maintainers": [
     {
@@ -41,10 +42,10 @@
   "engines": {
     "node": ">=10.16.0"
   },
-  "homepage": "http://github.com/kibertoad/fastify-dependency-injection",
+  "homepage": "http://github.com/kibertoad/fastify-awilix",
   "repository": {
     "type": "git",
-    "url": "git://github.com/kibertoad/fastify-dependency-injection.git"
+    "url": "git://github.com/kibertoad/fastify-awilix.git"
   },
   "keywords": [
     "fastify",
