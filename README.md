@@ -71,11 +71,11 @@ app.post('/', async (req, res) => {
 
 ## Plugin options
 
-`disposeOnClose` - automatically invoke configured `dispose` for app-level `diContainer` hooks when fastify instance is closed. 
+`disposeOnClose` - automatically invoke configured `dispose` for app-level `diContainer` hooks when the fastify instance is closed. 
   Disposal is triggered within `onClose` fastify hook. 
   Default value is `true`
 
-`disposeOnClose` - automatically invoke configured `dispose` for request-level `diScope` hooks after reply is sent.
+`disposeOnResponse` - automatically invoke configured `dispose` for request-level `diScope` hooks after the reply is sent.
   Disposal is triggered within `onResponse` fastify hook.
   Default value is `true`
 
