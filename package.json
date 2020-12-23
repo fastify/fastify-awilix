@@ -42,10 +42,10 @@
   "engines": {
     "node": ">=10.16.0"
   },
-  "homepage": "http://github.com/kibertoad/fastify-awilix",
+  "homepage": "http://github.com/fastify/fastify-awilix",
   "repository": {
     "type": "git",
-    "url": "git://github.com/kibertoad/fastify-awilix.git"
+    "url": "git://github.com/fastify/fastify-awilix.git"
   },
   "keywords": [
     "fastify",
