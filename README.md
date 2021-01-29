@@ -120,6 +120,8 @@ diContainer.register({
 
 By default `fastify-awilix` is using generic empty `Cradle` and `RequestCradle` interfaces, it is possible extend it with your own types:
 
+`awlix` defines Cradle as a proxy, and all getters will trigger a container.resolve. [Read more](https://github.com/jeffijoe/awilix#containercradle)
+
 ```typescript
 declare module 'fastify-awilix' {
   interface Cradle {
@@ -137,6 +139,7 @@ app.diContainer.resolve('userService')
 request.diScope.resolve('userService')
 request.diScope.resolve('user')
 ```
+Another usage [example from awlix docs](https://github.com/jeffijoe/awilix/blob/master/examples/typescript/src/index.ts)
 
 ## Advanced DI configuration
 
