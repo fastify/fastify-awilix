@@ -1,13 +1,15 @@
 import { AwilixContainer } from 'awilix'
 import { FastifyPluginCallback } from 'fastify'
 
+export interface Cradle {}
+
 declare module 'fastify' {
   interface FastifyRequest {
-    diScope: AwilixContainer
+    diScope: AwilixContainer<Cradle>
   }
 
   interface FastifyInstance {
-    diContainer: AwilixContainer
+    diContainer: AwilixContainer<Cradle>
   }
 }
 
@@ -18,4 +20,4 @@ export type FastifyAwilixOptions = {
 
 export const fastifyAwilixPlugin: FastifyPluginCallback<NonNullable<FastifyAwilixOptions>>
 
-export const diContainer: AwilixContainer
+export const diContainer: AwilixContainer<Cradle>
