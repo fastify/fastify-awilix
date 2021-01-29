@@ -3,9 +3,11 @@ import { FastifyPluginCallback } from 'fastify'
 
 export interface Cradle {}
 
+export interface RequestCradle {}
+
 declare module 'fastify' {
   interface FastifyRequest {
-    diScope: AwilixContainer<Cradle>
+    diScope: AwilixContainer<Cradle & RequestCradle>
   }
 
   interface FastifyInstance {
