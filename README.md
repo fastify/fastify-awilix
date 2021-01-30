@@ -139,7 +139,8 @@ app.diContainer.resolve('userService')
 request.diScope.resolve('userService')
 request.diScope.resolve('user')
 ```
-Another usage [example from awlix docs](https://github.com/jeffijoe/awilix/blob/master/examples/typescript/src/index.ts)
+
+[Find more in tests](./index.test-d.ts) or in [example from awlix documentation](https://github.com/jeffijoe/awilix/blob/master/examples/typescript/src/index.ts)
 
 ## Advanced DI configuration
 
