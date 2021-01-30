@@ -21,7 +21,7 @@ const fastify = require('fastify')
 
 app = fastify({ logger: true })
 app.register(fastifyAwilixPlugin, { disposeOnClose: true, disposeOnResponse: true })
-``` 
+```
 
 Then, register some modules for injection:
 
@@ -59,7 +59,7 @@ app.post('/', async (req, res) => {
   const userRepositoryForReq = req.diScope.resolve('userRepository')
   const userRepositoryForApp = app.diContainer.resolve('userRepository') // This returns exact same result as the previous line
   const userService = req.diScope.resolve('userService')
-  
+
   // Logic goes here
 
   res.send({
@@ -67,12 +67,12 @@ app.post('/', async (req, res) => {
   })
 })
 ```
-      
+
 
 ## Plugin options
 
-`disposeOnClose` - automatically invoke configured `dispose` for app-level `diContainer` hooks when the fastify instance is closed. 
-  Disposal is triggered within `onClose` fastify hook. 
+`disposeOnClose` - automatically invoke configured `dispose` for app-level `diContainer` hooks when the fastify instance is closed.
+  Disposal is triggered within `onClose` fastify hook.
   Default value is `true`
 
 `disposeOnResponse` - automatically invoke configured `dispose` for request-level `diScope` hooks after the reply is sent.
@@ -98,7 +98,7 @@ class UserRepository {
   constructor() {
     // Constructor logic goes here
   }
-  
+
   dispose() {
     // Disposal logic goes here
   }
@@ -113,8 +113,34 @@ diContainer.register({
     lifetime: Lifetime.SINGLETON,
     dispose: (module) => module.dispose(),
   }),
-})      
+})
 ```
+
+## Typescript usage
+
+By default `fastify-awilix` is using generic empty `Cradle` and `RequestCradle` interfaces, it is possible extend them with your own types:
+
+`awilix` defines Cradle as a proxy, and calling getters on it will trigger a container.resolve for an according module. [Read more](https://github.com/jeffijoe/awilix#containercradle)
+
+```typescript
+declare module 'fastify-awilix' {
+  interface Cradle {
+    userService: UserService
+  }
+  interface RequestCradle {
+    user: User
+  }
+}
+//later, type is inferred correctly
+fastify.diContainer.cradle.userService
+// or
+app.diContainer.resolve('userService')
+// request scope
+request.diScope.resolve('userService')
+request.diScope.resolve('user')
+```
+
+[Find more in tests](./index.test-d.ts) or in [example from awilix documentation](https://github.com/jeffijoe/awilix/blob/master/examples/typescript/src/index.ts)
 
 ## Advanced DI configuration
 
