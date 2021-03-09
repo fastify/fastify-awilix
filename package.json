@@ -12,12 +12,12 @@
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
-    "test": "jest --config=jest.config.json",
-    "test:coverage": "jest --config=jest.config.json --coverage",
-    "test:ci": "npm run lint && npm run test:typescript && npm run test:coverage",
-    "test:typescript": "tsd",
     "lint": "eslint --format codeframe \"lib/**/*.js\" index.js",
-    "prettier": "prettier --write \"{lib,test}/**/*.js\" index.js index.d.ts"
+    "prettier": "prettier --write \"{lib,test}/**/*.js\" index.js index.d.ts",
+    "test": "jest --config=jest.config.json",
+    "test:ci": "npm run lint && npm run test:typescript && npm run test:coverage",
+    "test:coverage": "jest --config=jest.config.json --coverage",
+    "test:typescript": "tsd"
   },
   "dependencies": {
     "fastify-plugin": "^3.0.0"
