@@ -140,7 +140,18 @@ request.diScope.resolve('userService')
 request.diScope.resolve('user')
 ```
 
-[Find more in tests](./index.test-d.ts) or in [example from awilix documentation](https://github.com/jeffijoe/awilix/blob/master/examples/typescript/src/index.ts)
+[Find more in tests](index.test-d.ts) or in [example from awilix documentation](https://github.com/jeffijoe/awilix/blob/master/examples/typescript/src/index.ts)
+
+## Using classic injection mode
+
+If you prefer [classic injection](https://github.com/jeffijoe/awilix#injection-modes), you can use it like this:
+```javascript
+const { fastifyAwilixPlugin } = require('fastify-awilix/classic')
+const fastify = require('fastify')
+
+app = fastify({ logger: true })
+app.register(fastifyAwilixPlugin, { disposeOnClose: true, disposeOnResponse: true })
+```
 
 ## Advanced DI configuration
 

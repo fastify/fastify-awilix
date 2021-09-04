@@ -1,6 +1,8 @@
 import { asValue, AwilixContainer } from 'awilix'
 import fastify, { FastifyInstance } from 'fastify'
-import { diContainer, FastifyAwilixOptions, fastifyAwilixPlugin, Cradle, RequestCradle } from './'
+import { diContainer, FastifyAwilixOptions, fastifyAwilixPlugin, Cradle, RequestCradle } from './lib'
+import { diContainer as diContainerClassic, fastifyAwilixPlugin as fastifyAwilixPluginClassic  } from './lib/classic'
+
 import { expectAssignable, expectNotType, expectType } from 'tsd'
 
 expectAssignable<FastifyAwilixOptions>({})
@@ -14,7 +16,7 @@ interface User {
   name: string
 }
 
-declare module './' {
+declare module './lib' {
   interface Cradle {
     mailService: MailService
   }
