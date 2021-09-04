@@ -62,6 +62,7 @@
   "files": [
     "README.md",
     "LICENSE",
-    "lib/*"
+    "lib/*",
+    "!lib/index.test-d.ts"
   ]
 }
