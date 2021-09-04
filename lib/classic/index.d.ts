@@ -1,1 +1,1 @@
-export { Cradle, RequestCradle, diContainer, FastifyAwilixOptions, fastifyAwilixPlugin} from '../index'
+export { Cradle, RequestCradle, diContainer, FastifyAwilixOptions, fastifyAwilixPlugin} from '../'

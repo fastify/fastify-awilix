@@ -16,7 +16,7 @@ interface User {
   name: string
 }
 
-declare module './index' {
+declare module './' {
   interface Cradle {
     mailService: MailService
   }
