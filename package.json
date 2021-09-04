@@ -16,8 +16,8 @@
     "test:coverage": "jest --config=jest.config.json --coverage",
     "test:ci": "npm run lint && npm run test:typescript && npm run test:coverage",
     "test:typescript": "tsd",
-    "lint": "eslint --format codeframe \\\"lib/**/*.js\\\" lib/index.js",
-    "prettier": "prettier --write \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"{lib,test}/**/*.js\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\" lib/index.js lib/index.d.ts"
+    "lint": "eslint --format codeframe \"lib/**/*.js\" lib/index.js",
+    "prettier": "prettier --write \"{lib,test}/**/*.js\" lib/index.js lib/index.d.ts"
   },
   "dependencies": {
     "fastify-plugin": "^3.0.0"
