@@ -18,6 +18,7 @@ declare module 'fastify' {
 export type FastifyAwilixOptions = {
   disposeOnResponse?: boolean
   disposeOnClose?: boolean
+  injectionMode?: 'PROXY' | 'CLASSIC'
 }
 
 export const fastifyAwilixPlugin: FastifyPluginCallback<NonNullable<FastifyAwilixOptions>>
