@@ -40,17 +40,17 @@ describe('fastifyAwilixPlugin', () => {
 
   variations.forEach((variation) => {
     describe(variation.name, () => {
+      const endpoint = async (req, res) => {
+        const userRepository = app.diContainer.resolve('userRepository')
+        storedUserRepository = userRepository
+        expect(userRepository.disposeCounter).toEqual(0)
+
+        res.send({
+          status: 'OK',
+        })
+      }
+
       describe('dispose singletons', () => {
-        const endpoint = async (req, res) => {
-          const userRepository = app.diContainer.resolve('userRepository')
-          storedUserRepository = userRepository
-          expect(userRepository.disposeCounter).toEqual(0)
-
-          res.send({
-            status: 'OK',
-          })
-        }
-
         const endpointWithScope = async (req, res) => {
           const userRepository = req.diScope.resolve('userRepository')
           const userRepositoryScoped = req.diScope.resolve('userRepositoryScoped')
@@ -170,6 +170,60 @@ describe('fastifyAwilixPlugin', () => {
           await app.close()
           expect(storedUserRepositoryScoped.disposeCounter).toEqual(1)
           expect(storedUserRepository.disposeCounter).toEqual(1)
+        })
+      })
+
+      describe('response logging', () => {
+        it('should only produce one "request completed" log with dispose settings enabled', async () => {
+          let requestCompletedLogCount = 0
+          jest.spyOn(process.stdout, 'write').mockImplementation((data) => {
+            const log = JSON.parse(data)
+            if (log.msg === 'request completed') requestCompletedLogCount += 1
+            return true
+          })
+
+          app = fastify({ logger: true })
+          app.register(variation.plugin, { disposeOnClose: true, disposeOnResponse: true })
+          variation.container.register({
+            userRepository: asClass(UserRepository, {
+              lifetime: Lifetime.SINGLETON,
+              dispose: (service) => service.dispose(),
+            }),
+          })
+
+          app.post('/', endpoint)
+          await app.ready()
+
+          await app.inject().post('/').end()
+
+          await app.close()
+          expect(requestCompletedLogCount).toEqual(1)
+        })
+
+        it('should only produce one "request completed" log with dispose settings disabled', async () => {
+          let requestCompletedLogCount = 0
+          jest.spyOn(process.stdout, 'write').mockImplementation((data) => {
+            const log = JSON.parse(data)
+            if (log.msg === 'request completed') requestCompletedLogCount += 1
+            return true
+          })
+
+          app = fastify({ logger: true })
+          app.register(variation.plugin, { disposeOnClose: false, disposeOnResponse: false })
+          variation.container.register({
+            userRepository: asClass(UserRepository, {
+              lifetime: Lifetime.SINGLETON,
+              dispose: (service) => service.dispose(),
+            }),
+          })
+
+          app.post('/', endpoint)
+          await app.ready()
+
+          await app.inject().post('/').end()
+
+          await app.close()
+          expect(requestCompletedLogCount).toEqual(1)
         })
       })
     })
