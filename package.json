@@ -34,7 +34,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "fastify": "^3.27.4",
-    "jest": "^27.5.1",
+    "jest": "^28.0.3",
     "prettier": "^2.6.0",
     "superagent": "^7.1.1",
     "tsd": "^0.20.0",
