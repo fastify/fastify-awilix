@@ -24,7 +24,7 @@
   },
   "peerDependencies": {
     "awilix": ">=4.0.0",
-    "fastify": "^3.0.0"
+    "fastify": "^4.0.0-rc.3"
   },
   "devDependencies": {
     "@types/glob": "^7.2.0",
@@ -33,15 +33,12 @@
     "eslint": "^8.11.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "fastify": "^3.27.4",
+    "fastify": "^4.0.0-rc.3",
     "jest": "^28.0.3",
     "prettier": "^2.6.0",
     "superagent": "^7.1.1",
     "tsd": "^0.20.0",
     "typescript": "4.7.2"
-  },
-  "engines": {
-    "node": ">=10.16.0"
   },
   "homepage": "http://github.com/fastify/fastify-awilix",
   "repository": {
