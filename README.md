@@ -1,4 +1,4 @@
-# fastify-awilix
+# @fastify/awilix
 
 [![NPM Version][npm-image]][npm-url]
 [![Build Status](https://github.com/fastify/fastify-awilix/workflows/ci/badge.svg)](https://github.com/fastify/fastify-awilix/actions)
@@ -10,13 +10,13 @@ Dependency injection support for fastify framework, using [awilix](https://githu
 First install the package and awilix:
 
 ```bash
-npm i fastify-awilix awilix
+npm i @fastify/awilix awilix
 ```
 
 Next, set up the plugin:
 
 ```js
-const { fastifyAwilixPlugin } = require('fastify-awilix')
+const { fastifyAwilixPlugin } = require('@fastify/awilix')
 const fastify = require('fastify')
 
 app = fastify({ logger: true })
@@ -26,7 +26,7 @@ app.register(fastifyAwilixPlugin, { disposeOnClose: true, disposeOnResponse: tru
 Then, register some modules for injection:
 
 ```js
-const { diContainer } = require('fastify-awilix')
+const { diContainer } = require('@fastify/awilix')
 const { asClass, asFunction, Lifetime } = require('awilix')
 
 // Code from the previous example goes here
@@ -123,7 +123,7 @@ By default `fastify-awilix` is using generic empty `Cradle` and `RequestCradle` 
 `awilix` defines Cradle as a proxy, and calling getters on it will trigger a container.resolve for an according module. [Read more](https://github.com/jeffijoe/awilix#containercradle)
 
 ```typescript
-declare module 'fastify-awilix' {
+declare module '@fastify/awilix' {
   interface Cradle {
     userService: UserService
   }
@@ -146,7 +146,7 @@ request.diScope.resolve('user')
 
 If you prefer [classic injection](https://github.com/jeffijoe/awilix#injection-modes), you can use it like this:
 ```javascript
-const { fastifyAwilixPlugin } = require('fastify-awilix/classic')
+const { fastifyAwilixPlugin } = require('@fastify/awilix/classic')
 const fastify = require('fastify')
 
 app = fastify({ logger: true })
@@ -157,7 +157,7 @@ app.register(fastifyAwilixPlugin, { disposeOnClose: true, disposeOnResponse: tru
 
 For more advanced use-cases, check the official [awilix documentation](https://github.com/jeffijoe/awilix)
 
-[npm-image]: https://img.shields.io/npm/v/fastify-awilix.svg
-[npm-url]: https://npmjs.org/package/fastify-awilix
-[downloads-image]: https://img.shields.io/npm/dm/fastify-awilix.svg
-[downloads-url]: https://npmjs.org/package/fastify-awilix
+[npm-image]: https://img.shields.io/npm/v/@fastify/awilix.svg
+[npm-url]: https://npmjs.org/package/@fastify/awilix
+[downloads-image]: https://img.shields.io/npm/dm/@fastify/awilix.svg
+[downloads-url]: https://npmjs.org/package/@fastify/awilix
