@@ -1,6 +1,6 @@
 {
   "name": "@fastify/awilix",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Dependency injection support for fastify framework",
   "license": "MIT",
   "maintainers": [
