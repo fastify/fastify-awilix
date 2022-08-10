@@ -118,7 +118,7 @@ diContainer.register({
 
 ## Typescript usage
 
-By default `fastify-awilix` is using generic empty `Cradle` and `RequestCradle` interfaces, it is possible extend them with your own types:
+By default `@fastify/awilix` is using generic empty `Cradle` and `RequestCradle` interfaces, it is possible extend them with your own types:
 
 `awilix` defines Cradle as a proxy, and calling getters on it will trigger a container.resolve for an according module. [Read more](https://github.com/jeffijoe/awilix#containercradle)
 
