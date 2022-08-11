@@ -1,7 +1,7 @@
 import { asValue, AwilixContainer } from 'awilix'
 import fastify, { FastifyInstance } from 'fastify'
 import { diContainer, FastifyAwilixOptions, fastifyAwilixPlugin, Cradle, RequestCradle } from './index'
-import { diContainer as diContainerClassic, fastifyAwilixPlugin as fastifyAwilixPluginClassic  } from './classic'
+import { diContainer as diContainerClassic } from './classic'
 
 import { expectAssignable, expectNotType, expectType } from 'tsd'
 
