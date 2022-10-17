@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@types/node": "^18.6.5",
-    "awilix": "^7.0.3",
+    "awilix": "^8.0.0",
     "eslint": "^8.21.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
