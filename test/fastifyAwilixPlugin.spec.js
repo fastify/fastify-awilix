@@ -60,12 +60,12 @@ describe('fastifyAwilixPlugin', () => {
           app = fastify({ logger: true })
           const endpoint = async (req, res) => {
             const userService = app.diContainer.resolve('userService')
-            expect(userService.userRepository.id).toEqual('userRepository')
-            expect(userService.maxUserName).toEqual(10)
-            expect(userService.maxEmail).toEqual(40)
+            expect(userService.userRepository.id).toBe('userRepository')
+            expect(userService.maxUserName).toBe(10)
+            expect(userService.maxEmail).toBe(40)
 
             const maxUserPassword = await req.diScope.resolve('maxUserPassword')
-            expect(maxUserPassword).toEqual(20)
+            expect(maxUserPassword).toBe(20)
             res.send({
               status: 'OK',
             })
@@ -86,7 +86,7 @@ describe('fastifyAwilixPlugin', () => {
           await app.ready()
 
           const response = await app.inject().post('/').end()
-          expect(response.statusCode).toEqual(200)
+          expect(response.statusCode).toBe(200)
         })
       })
     })
