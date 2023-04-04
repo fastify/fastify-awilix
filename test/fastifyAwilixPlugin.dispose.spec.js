@@ -38,6 +38,10 @@ describe('fastifyAwilixPlugin', () => {
     return app.close()
   })
 
+  beforeEach(() => {
+    storedUserRepository = undefined
+  })
+
   variations.forEach((variation) => {
     describe(variation.name, () => {
       const endpoint = async (req, res) => {
@@ -104,6 +108,38 @@ describe('fastifyAwilixPlugin', () => {
 
           await app.close()
           expect(storedUserRepository.disposeCounter).toBe(0)
+        })
+
+        it('do not attempt to dispose request scope if response was returned before it was even created', async () => {
+          app = fastify({ logger: true })
+          await app.addHook('onRequest', (request, reply) => {
+            return reply.send('OK')
+          })
+
+          await app.register(variation.plugin, { disposeOnClose: false, disposeOnResponse: true })
+          variation.container.register({
+            userRepository: asClass(UserRepository, {
+              lifetime: Lifetime.SINGLETON,
+              dispose: (service) => service.dispose(),
+            }),
+          })
+
+          let storedError = null
+          app.setErrorHandler((err, request, reply) => {
+            storedError = err
+            return reply.send('Error')
+          })
+
+          app.post('/', endpoint)
+          await app.ready()
+
+          const response = await app.inject().options('/').end()
+          expect(response.statusCode).toBe(200)
+          expect(storedUserRepository).toBeUndefined()
+
+          await app.close()
+          expect(storedError).toBeNull()
+          expect(storedUserRepository).toBeUndefined()
         })
 
         it('dispose request-scoped singletons on sending response', async () => {
