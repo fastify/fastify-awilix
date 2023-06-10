@@ -82,7 +82,7 @@ Default value is `true`
 Disposal is triggered within `onResponse` fastify hook.
 Default value is `true`
 
-`asyncInit` - whether to process `asyncInit` fields in DI resolver configuration. Disabling this will make app startup slightly faster.
+`asyncInit` - whether to process `asyncInit` fields in DI resolver configuration. Note that all dependencies with asyncInit enabled are instantiated eagerly. Disabling this will make app startup slightly faster.
 Default value is `false`
 
 `asyncDispose` - whether to process `asyncDispose` fields in DI resolver configuration when closing the fastify app. Disabling this will make app closing slightly faster.
