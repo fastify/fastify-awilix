@@ -8,6 +8,9 @@ import { expectAssignable, expectNotType, expectType } from 'tsd'
 expectAssignable<FastifyAwilixOptions>({})
 expectAssignable<FastifyAwilixOptions>({ disposeOnClose: false })
 expectAssignable<FastifyAwilixOptions>({ disposeOnResponse: false })
+expectAssignable<FastifyAwilixOptions>({ asyncInit: false, asyncDispose: false })
+expectAssignable<FastifyAwilixOptions>({ asyncInit: true, asyncDispose: true })
+expectAssignable<FastifyAwilixOptions>({ eagerInject: true })
 
 interface MailService {
   greet(name: string): void
