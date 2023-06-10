@@ -21,7 +21,7 @@
     "prettier": "prettier --write \"{lib,test}/**/*.js\" lib/index.js lib/index.d.ts"
   },
   "dependencies": {
-    "awilix-manager": "^1.0.0",
+    "awilix-manager": "^1.0.1",
     "fastify-plugin": "^4.1.0"
   },
   "peerDependencies": {
