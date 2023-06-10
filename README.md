@@ -41,10 +41,14 @@ diContainer.register({
 app.addHook('onRequest', (request, reply, done) => {
   request.diScope.register({
     userService: asFunction(
-      ({ userRepository }) => { return new UserService(userRepository, request.params.countryId) }, {
-      lifetime: Lifetime.SCOPED,
-      dispose: (module) => module.dispose(),
-    }),
+      ({ userRepository }) => {
+        return new UserService(userRepository, request.params.countryId)
+      },
+      {
+        lifetime: Lifetime.SCOPED,
+        dispose: (module) => module.dispose(),
+      }
+    ),
   })
   done()
 })
@@ -68,21 +72,30 @@ app.post('/', async (req, res) => {
 })
 ```
 
-
 ## Plugin options
 
 `disposeOnClose` - automatically invoke configured `dispose` for app-level `diContainer` hooks when the fastify instance is closed.
-  Disposal is triggered within `onClose` fastify hook.
-  Default value is `true`
+Disposal is triggered within `onClose` fastify hook.
+Default value is `true`
 
 `disposeOnResponse` - automatically invoke configured `dispose` for request-level `diScope` hooks after the reply is sent.
-  Disposal is triggered within `onResponse` fastify hook.
-  Default value is `true`
+Disposal is triggered within `onResponse` fastify hook.
+Default value is `true`
+
+`asyncInit` - whether to process `asyncInit` fields in DI resolver configuration. Disabling this will make app startup slightly faster.
+Default value is `false`
+
+`asyncDispose` - whether to process `asyncDispose` fields in DI resolver configuration when closing the fastify app. Disabling this will make app closing slightly faster.
+Default value is `false`
+
+`eagerInject` - whether to process `eagerInject` fields in DI resolver configuration, which instantiates and caches module immediately. Disabling this will make app startup slightly faster.
+Default value is `false`
 
 ## Defining classes
 
 All dependency modules are resolved using either the constructor injection (for `asClass`) or the function argument (for `asFunction`), by passing the aggregated dependencies object, where keys
 of the dependencies object match keys used in registering modules:
+
 ```js
 class UserService {
   constructor({ userRepository }) {
@@ -142,9 +155,33 @@ request.diScope.resolve('user')
 
 [Find more in tests](lib/index.test-d.ts) or in [example from awilix documentation](https://github.com/jeffijoe/awilix/blob/master/examples/typescript/src/index.ts)
 
+## Asynchronous init, dispose and eager injection
+
+`fastify-awilix` supports extended awilix resolver options, provided by [awilix-manager](https://github.com/kibertoad/awilix-manager#getting-started):
+
+```js
+const { diContainer, fastifyAwilixPlugin } = '@fastify/awilix'
+const { asClass } = require('awilix')
+
+diContainer.register(
+  'dependency1',
+  asClass(AsyncInitSetClass, {
+    lifetime: 'SINGLETON',
+    asyncInit: 'init',
+    asyncDispose: 'dispose',
+    eagerInject: true,
+  })
+)
+
+app = fastify()
+await app.register(fastifyAwilixPlugin, { asyncInit: true, asyncDispose: true, eagerInject: true })
+await app.ready()
+```
+
 ## Using classic injection mode
 
 If you prefer [classic injection](https://github.com/jeffijoe/awilix#injection-modes), you can use it like this:
+
 ```javascript
 const { fastifyAwilixPlugin } = require('@fastify/awilix/classic')
 const fastify = require('fastify')

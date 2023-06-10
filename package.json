@@ -17,9 +17,11 @@
     "test:ci": "npm run lint && npm run test:typescript && npm run test:coverage",
     "test:typescript": "tsd",
     "lint": "eslint \"lib/**/*.js\" lib/index.js",
+    "lint:fix": "eslint --fix \"lib/**/*.js\" lib/index.js",
     "prettier": "prettier --write \"{lib,test}/**/*.js\" lib/index.js lib/index.d.ts"
   },
   "dependencies": {
+    "awilix-manager": "^1.0.1",
     "fastify-plugin": "^4.1.0"
   },
   "peerDependencies": {
