@@ -88,7 +88,7 @@ Default value is `false`
 `asyncDispose` - whether to process `asyncDispose` fields in DI resolver configuration when closing the fastify app. Disabling this will make app closing slightly faster.
 Default value is `false`
 
-`eagerInject` - whether to process `eagerInject` fields in DI resolver configuration. Disabling this will make app startup slightly faster.
+`eagerInject` - whether to process `eagerInject` fields in DI resolver configuration, which instantiates and caches module immediately. Disabling this will make app startup slightly faster.
 Default value is `false`
 
 ## Defining classes
