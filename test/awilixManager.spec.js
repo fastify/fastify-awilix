@@ -6,7 +6,6 @@ const {
   diContainer: diContainerClassic,
   fastifyAwilixPlugin: fastifyAwilixPluginClassic,
 } = require('../lib/classic')
-const { beforeEach } = require('node:test')
 
 let isInittedGlobal = false
 let isDisposedGlobal = false
