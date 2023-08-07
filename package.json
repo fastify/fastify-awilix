@@ -36,7 +36,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "fastify": "^4.4.0",
     "jest": "^29.0.1",
-    "prettier": "^2.7.1",
+    "prettier": "^3.0.1",
     "tsd": "^0.28.0"
   },
   "homepage": "http://github.com/fastify/fastify-awilix",
