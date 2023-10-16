@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.1.0",
-    "awilix": "^8.0.0",
+    "awilix": "^9.0.0",
     "eslint": "^8.21.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^4.2.1",
