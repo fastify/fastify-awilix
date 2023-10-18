@@ -1,3 +1,5 @@
+'use strict'
+
 const { asClass } = require('awilix')
 const fastify = require('fastify')
 const { diContainer, fastifyAwilixPlugin } = require('../lib')
