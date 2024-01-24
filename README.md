@@ -183,7 +183,7 @@ await app.ready()
 If you prefer [classic injection](https://github.com/jeffijoe/awilix#injection-modes), you can use it like this:
 
 ```javascript
-const { fastifyAwilixPlugin } = require('@fastify/awilix/classic')
+const { fastifyAwilixPlugin } = require('@fastify/awilix/lib/classic')
 const fastify = require('fastify')
 
 app = fastify({ logger: true })
