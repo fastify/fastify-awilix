@@ -20,6 +20,8 @@ declare module 'fastify' {
 export type FastifyAwilixOptions = {
   disposeOnResponse?: boolean
   disposeOnClose?: boolean
+  injectionMode?: 'PROXY' | 'CLASSIC'
+  container?: AwilixContainer<Cradle>
   asyncInit?: boolean
   asyncDispose?: boolean
   eagerInject?: boolean
@@ -28,3 +30,5 @@ export type FastifyAwilixOptions = {
 export const fastifyAwilixPlugin: FastifyPluginCallback<NonNullable<FastifyAwilixOptions>>
 
 export const diContainer: AwilixContainer<Cradle>
+export const diContainerClassic: AwilixContainer<Cradle>
+export const diContainerProxy: AwilixContainer<Cradle>

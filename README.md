@@ -3,7 +3,7 @@
 [![NPM Version][npm-image]][npm-url]
 [![Build Status](https://github.com/fastify/fastify-awilix/workflows/ci/badge.svg)](https://github.com/fastify/fastify-awilix/actions)
 
-Dependency injection support for fastify framework, using [awilix](https://github.com/jeffijoe/awilix)
+Dependency injection support for fastify framework, using [awilix](https://github.com/jeffijoe/awilix).
 
 ## Getting started
 
@@ -26,7 +26,11 @@ app.register(fastifyAwilixPlugin, { disposeOnClose: true, disposeOnResponse: tru
 Then, register some modules for injection:
 
 ```js
-const { diContainer } = require('@fastify/awilix')
+const { 
+  diContainer, // this is an alias for diContainerProxy
+  diContainerClassic, // this instance will be used for `injectionMode = 'CLASSIC'`
+  diContainerProxy // this instance will be used by default
+} = require('@fastify/awilix')
 const { asClass, asFunction, Lifetime } = require('awilix')
 
 // Code from the previous example goes here
@@ -73,6 +77,10 @@ app.post('/', async (req, res) => {
 ```
 
 ## Plugin options
+
+`injectionMode` - whether to use PROXY or CLASSIC injection mode. See [awilix documentation](https://www.npmjs.com/package/awilix#injection-modes) for details. Default is 'PROXY'.
+
+`container` - pre-created AwilixContainer instance that should be used by the plugin. By default plugin uses its own instance. Note that you can't specify both `injectionMode` and `container` parameters at the same time.
 
 `disposeOnClose` - automatically invoke configured `dispose` for app-level `diContainer` hooks when the fastify instance is closed.
 Disposal is triggered within `onClose` fastify hook.
@@ -176,18 +184,6 @@ diContainer.register(
 app = fastify()
 await app.register(fastifyAwilixPlugin, { asyncInit: true, asyncDispose: true, eagerInject: true })
 await app.ready()
-```
-
-## Using classic injection mode
-
-If you prefer [classic injection](https://github.com/jeffijoe/awilix#injection-modes), you can use it like this:
-
-```javascript
-const { fastifyAwilixPlugin } = require('@fastify/awilix/lib/classic')
-const fastify = require('fastify')
-
-app = fastify({ logger: true })
-app.register(fastifyAwilixPlugin, { disposeOnClose: true, disposeOnResponse: true })
 ```
 
 ## Advanced DI configuration
