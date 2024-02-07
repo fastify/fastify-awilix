@@ -1,12 +1,16 @@
 import { asValue, AwilixContainer } from 'awilix'
 import fastify, { FastifyInstance } from 'fastify'
-import { diContainer, FastifyAwilixOptions, fastifyAwilixPlugin, Cradle, RequestCradle } from './index'
-import { diContainer as diContainerClassic } from './classic'
+import { diContainer, diContainerClassic, FastifyAwilixOptions, fastifyAwilixPlugin, Cradle, RequestCradle } from './index'
 
 import { expectAssignable, expectNotType, expectType } from 'tsd'
 
 expectAssignable<FastifyAwilixOptions>({})
 expectAssignable<FastifyAwilixOptions>({ disposeOnClose: false })
+expectAssignable<FastifyAwilixOptions>({ container: diContainer })
+expectAssignable<FastifyAwilixOptions>({ container: diContainerClassic })
+expectAssignable<FastifyAwilixOptions>({ injectionMode: 'CLASSIC' })
+expectAssignable<FastifyAwilixOptions>({ injectionMode: 'PROXY' })
+
 expectAssignable<FastifyAwilixOptions>({ disposeOnResponse: false })
 expectAssignable<FastifyAwilixOptions>({ asyncInit: false, asyncDispose: false })
 expectAssignable<FastifyAwilixOptions>({ asyncInit: true, asyncDispose: true })

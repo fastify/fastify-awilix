@@ -2,11 +2,7 @@
 
 const fastify = require('fastify')
 const { asClass, Lifetime } = require('awilix')
-const { fastifyAwilixPlugin, diContainer } = require('../lib')
-const {
-  fastifyAwilixPlugin: fastifyAwilixPluginClassic,
-  diContainer: diContainerClassic,
-} = require('../lib/classic')
+const { fastifyAwilixPlugin, diContainer, diContainerClassic } = require('../lib')
 
 class UserRepository {
   constructor() {
@@ -23,13 +19,11 @@ let storedUserRepositoryScoped
 
 const variations = [
   {
-    name: 'PROXY',
-    plugin: fastifyAwilixPlugin,
+    injectionMode: 'PROXY',
     container: diContainer,
   },
   {
-    name: 'CLASSIC',
-    plugin: fastifyAwilixPluginClassic,
+    injectionMode: 'CLASSIC',
     container: diContainerClassic,
   },
 ]
@@ -45,7 +39,7 @@ describe('fastifyAwilixPlugin', () => {
   })
 
   variations.forEach((variation) => {
-    describe(variation.name, () => {
+    describe(variation.injectionMode, () => {
       const endpoint = async (req, res) => {
         const userRepository = app.diContainer.resolve('userRepository')
         storedUserRepository = userRepository
@@ -72,7 +66,11 @@ describe('fastifyAwilixPlugin', () => {
 
         it('dispose app-scoped singletons on closing app correctly', async () => {
           app = fastify({ logger: true })
-          app.register(variation.plugin, { disposeOnClose: true, disposeOnResponse: false })
+          app.register(fastifyAwilixPlugin, {
+            disposeOnClose: true,
+            disposeOnResponse: false,
+            injectionMode: variation.injectionMode,
+          })
           variation.container.register({
             userRepository: asClass(UserRepository, {
               lifetime: Lifetime.SINGLETON,
@@ -93,7 +91,11 @@ describe('fastifyAwilixPlugin', () => {
 
         it('do not dispose app-scoped singletons on sending response', async () => {
           app = fastify({ logger: true })
-          app.register(variation.plugin, { disposeOnClose: false, disposeOnResponse: true })
+          app.register(fastifyAwilixPlugin, {
+            disposeOnClose: false,
+            disposeOnResponse: true,
+            injectionMode: variation.injectionMode,
+          })
           variation.container.register({
             userRepository: asClass(UserRepository, {
               lifetime: Lifetime.SINGLETON,
@@ -118,7 +120,11 @@ describe('fastifyAwilixPlugin', () => {
             return reply.send('OK')
           })
 
-          await app.register(variation.plugin, { disposeOnClose: false, disposeOnResponse: true })
+          await app.register(fastifyAwilixPlugin, {
+            disposeOnClose: false,
+            disposeOnResponse: true,
+            injectionMode: variation.injectionMode,
+          })
           variation.container.register({
             userRepository: asClass(UserRepository, {
               lifetime: Lifetime.SINGLETON,
@@ -146,7 +152,11 @@ describe('fastifyAwilixPlugin', () => {
 
         it('dispose request-scoped singletons on sending response', async () => {
           app = fastify({ logger: true })
-          app.register(variation.plugin, { disposeOnClose: false, disposeOnResponse: true })
+          app.register(fastifyAwilixPlugin, {
+            disposeOnClose: false,
+            disposeOnResponse: true,
+            injectionMode: variation.injectionMode,
+          })
 
           variation.container.register({
             userRepository: asClass(UserRepository, {
@@ -179,7 +189,11 @@ describe('fastifyAwilixPlugin', () => {
 
         it('do not dispose request-scoped singletons twice on closing app', async () => {
           app = fastify({ logger: true })
-          app.register(variation.plugin, { disposeOnClose: true, disposeOnResponse: true })
+          app.register(fastifyAwilixPlugin, {
+            disposeOnClose: true,
+            disposeOnResponse: true,
+            injectionMode: variation.injectionMode,
+          })
 
           variation.container.register({
             userRepository: asClass(UserRepository, {
@@ -221,7 +235,11 @@ describe('fastifyAwilixPlugin', () => {
           })
 
           app = fastify({ logger: true })
-          app.register(variation.plugin, { disposeOnClose: true, disposeOnResponse: true })
+          app.register(fastifyAwilixPlugin, {
+            disposeOnClose: true,
+            disposeOnResponse: true,
+            injectionMode: variation.injectionMode,
+          })
           variation.container.register({
             userRepository: asClass(UserRepository, {
               lifetime: Lifetime.SINGLETON,
@@ -247,7 +265,11 @@ describe('fastifyAwilixPlugin', () => {
           })
 
           app = fastify({ logger: true })
-          app.register(variation.plugin, { disposeOnClose: false, disposeOnResponse: false })
+          app.register(fastifyAwilixPlugin, {
+            disposeOnClose: false,
+            disposeOnResponse: false,
+            injectionMode: variation.injectionMode,
+          })
           variation.container.register({
             userRepository: asClass(UserRepository, {
               lifetime: Lifetime.SINGLETON,

@@ -2,12 +2,7 @@
 
 const { asClass } = require('awilix')
 const fastify = require('fastify')
-const { diContainer, fastifyAwilixPlugin } = require('../lib')
-
-const {
-  diContainer: diContainerClassic,
-  fastifyAwilixPlugin: fastifyAwilixPluginClassic,
-} = require('../lib/classic')
+const { diContainer, diContainerClassic, fastifyAwilixPlugin } = require('../lib')
 
 let isInittedGlobal = false
 let isDisposedGlobal = false
@@ -32,20 +27,18 @@ class AsyncInitSetClass {
 
 const variations = [
   {
-    name: 'PROXY',
-    plugin: fastifyAwilixPlugin,
+    injectionMode: 'PROXY',
     container: diContainer,
   },
   {
-    name: 'CLASSIC',
-    plugin: fastifyAwilixPluginClassic,
+    injectionMode: 'CLASSIC',
     container: diContainerClassic,
   },
 ]
 
 describe('awilixManager', () => {
   variations.forEach((variation) => {
-    describe(variation.name, () => {
+    describe(variation.injectionMode, () => {
       let app
       beforeEach(() => {
         isInittedGlobal = false
@@ -66,10 +59,13 @@ describe('awilixManager', () => {
           asClass(InitSetClass, {
             lifetime: 'SINGLETON',
             eagerInject: true,
-          })
+          }),
         )
         app = fastify({ logger: false })
-        await app.register(variation.plugin, { eagerInject: true })
+        await app.register(fastifyAwilixPlugin, {
+          eagerInject: true,
+          injectionMode: variation.injectionMode,
+        })
         await app.ready()
 
         expect(isInittedGlobal).toBe(true)
@@ -81,10 +77,13 @@ describe('awilixManager', () => {
           asClass(AsyncInitSetClass, {
             lifetime: 'SINGLETON',
             asyncInit: 'init',
-          })
+          }),
         )
         app = fastify({ logger: false })
-        await app.register(variation.plugin, { asyncInit: true })
+        await app.register(fastifyAwilixPlugin, {
+          asyncInit: true,
+          injectionMode: variation.injectionMode,
+        })
         await app.ready()
 
         expect(isInittedGlobal).toBe(true)
@@ -96,10 +95,13 @@ describe('awilixManager', () => {
           asClass(AsyncInitSetClass, {
             lifetime: 'SINGLETON',
             asyncDispose: 'dispose',
-          })
+          }),
         )
         app = fastify({ logger: false })
-        await app.register(variation.plugin, { asyncDispose: true })
+        await app.register(fastifyAwilixPlugin, {
+          asyncDispose: true,
+          injectionMode: variation.injectionMode,
+        })
         await app.ready()
         await app.close()
 
