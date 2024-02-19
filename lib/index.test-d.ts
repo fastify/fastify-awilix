@@ -16,6 +16,9 @@ expectAssignable<FastifyAwilixOptions>({ asyncInit: false, asyncDispose: false }
 expectAssignable<FastifyAwilixOptions>({ asyncInit: true, asyncDispose: true })
 expectAssignable<FastifyAwilixOptions>({ eagerInject: true })
 
+expectAssignable<FastifyAwilixOptions>({ strictBooleanEnforced: true })
+expectAssignable<FastifyAwilixOptions>({ strictBooleanEnforced: false })
+
 interface MailService {
   greet(name: string): void
 }

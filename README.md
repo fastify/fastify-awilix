@@ -20,7 +20,11 @@ const { fastifyAwilixPlugin } = require('@fastify/awilix')
 const fastify = require('fastify')
 
 app = fastify({ logger: true })
-app.register(fastifyAwilixPlugin, { disposeOnClose: true, disposeOnResponse: true })
+app.register(fastifyAwilixPlugin, { 
+  disposeOnClose: true, 
+  disposeOnResponse: true,
+  strictBooleanEnforced: true
+})
 ```
 
 Then, register some modules for injection:
@@ -97,6 +101,9 @@ Default value is `false`
 Default value is `false`
 
 `eagerInject` - whether to process `eagerInject` fields in DI resolver configuration, which instantiates and caches module immediately. Disabling this will make app startup slightly faster.
+Default value is `false`
+
+`strictBooleanEnforced` - whether to throw an error if `enabled` field in a resolver configuration is set with unsupported value (anything different from `true` and `false`). It is recommended to set this to `true`, which will be a default value in the next semver major release.
 Default value is `false`
 
 ## Defining classes
