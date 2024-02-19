@@ -25,6 +25,7 @@ export type FastifyAwilixOptions = {
   asyncInit?: boolean
   asyncDispose?: boolean
   eagerInject?: boolean
+  strictBooleanEnforced?: boolean
 }
 
 export const fastifyAwilixPlugin: FastifyPluginCallback<NonNullable<FastifyAwilixOptions>>
