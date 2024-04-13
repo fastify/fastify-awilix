@@ -30,6 +30,7 @@
     "fastify": "^4.0.0"
   },
   "devDependencies": {
+    "@fastify/pre-commit": "^2.1.0",
     "@types/node": "^20.12.7",
     "awilix": "^10.0.2",
     "eslint": "^9.0.0",
