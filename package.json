@@ -14,9 +14,9 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "test": "jest --config=jest.config.json",
+    "test:ci": "npm run lint && npm run test:typescript && npm run test:coverage",
     "test:coverage": "jest --config=jest.config.json --coverage",
     "test:typescript": "tsd",
-    "test:ci": "npm run lint && npm run test:typescript && npm run test:coverage",
     "lint": "eslint \"lib/**/*.js\" lib/index.js",
     "lint:fix": "eslint --fix \"lib/**/*.js\" lib/index.js",
     "prettier": "prettier --write \"{lib,test}/**/*.js\" lib/index.js lib/index.d.ts"
