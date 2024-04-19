@@ -6,7 +6,6 @@ const { describe, it, beforeEach, afterEach } = require('node:test')
 const assert = require('node:assert')
 
 const { fastifyAwilixPlugin, diContainer, diContainerClassic } = require('../lib')
-const { Writable } = require('node:stream')
 
 class UserRepository {
   constructor() {
@@ -32,14 +31,32 @@ const variations = [
   },
 ]
 
+function getCompletedRequests(output) {
+  return output.filter((line) => {
+    try {
+      const parsed = JSON.parse(line)
+      return parsed.msg === 'request completed'
+    } catch (e) {
+      return false
+    }
+  })
+}
+
 describe('fastifyAwilixPlugin', () => {
-  let app
+  let app, output
+  let write = process.stdout.write
+
   afterEach(() => {
+    process.stdout.write = write
     return app.close()
   })
 
   beforeEach(() => {
     storedUserRepository = undefined
+    output = []
+    process.stdout.write = (str) => {
+      output.push(str)
+    }
   })
 
   variations.forEach((variation) => {
@@ -243,16 +260,7 @@ describe('fastifyAwilixPlugin', () => {
 
       describe('response logging', () => {
         it('should only produce one "request completed" log with dispose settings enabled', async () => {
-          let requestCompletedLogCount = 0
-
-          const stream = new Writable({
-            write(chunk) {
-              const log = JSON.parse(chunk.toString())
-              if (log.msg === 'request completed') requestCompletedLogCount += 1
-            },
-          })
-
-          app = fastify({ logger: { stream } })
+          app = fastify({ logger: true })
           app.register(fastifyAwilixPlugin, {
             disposeOnClose: true,
             disposeOnResponse: true,
@@ -272,20 +280,12 @@ describe('fastifyAwilixPlugin', () => {
 
           await app.close()
 
-          assert.equal(requestCompletedLogCount, 1)
+          const completedRequests = getCompletedRequests(output)
+          assert.equal(completedRequests.length, 1)
         })
 
         it('should only produce one "request completed" log with dispose settings disabled', async () => {
-          let requestCompletedLogCount = 0
-
-          const stream = new Writable({
-            write(chunk) {
-              const log = JSON.parse(chunk.toString())
-              if (log.msg === 'request completed') requestCompletedLogCount += 1
-            },
-          })
-
-          app = fastify({ logger: { stream } })
+          app = fastify({ logger: true })
 
           app.register(fastifyAwilixPlugin, {
             disposeOnClose: false,
@@ -306,7 +306,8 @@ describe('fastifyAwilixPlugin', () => {
 
           await app.close()
 
-          assert.equal(requestCompletedLogCount, 1)
+          const completedRequests = getCompletedRequests(output)
+          assert.equal(completedRequests.length, 1)
         })
       })
     })
