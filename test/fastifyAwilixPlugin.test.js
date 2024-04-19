@@ -2,6 +2,9 @@
 
 const fastify = require('fastify')
 const { asValue, asFunction, asClass, Lifetime } = require('awilix')
+const { describe, it, afterEach } = require('node:test')
+const assert = require('node:assert')
+
 const { diContainer, diContainerClassic, fastifyAwilixPlugin } = require('../lib')
 
 class UserServiceClassic {
@@ -61,6 +64,7 @@ const variations = [
 
 describe('fastifyAwilixPlugin', () => {
   let app
+
   afterEach(() => {
     return app.close()
   })
@@ -86,12 +90,15 @@ describe('fastifyAwilixPlugin', () => {
           app = fastify({ logger: true })
           const endpoint = async (req, res) => {
             const userService = app.diContainer.resolve('userService')
-            expect(userService.userRepository.id).toBe('userRepository')
-            expect(userService.maxUserName).toBe(10)
-            expect(userService.maxEmail).toBe(40)
+
+            assert.equal(userService.userRepository.id, 'userRepository')
+            assert.equal(userService.maxUserName, 10)
+            assert.equal(userService.maxEmail, 40)
 
             const maxUserPassword = await req.diScope.resolve('maxUserPassword')
-            expect(maxUserPassword).toBe(20)
+
+            assert.equal(maxUserPassword, 20)
+
             res.send({
               status: 'OK',
             })
@@ -115,7 +122,8 @@ describe('fastifyAwilixPlugin', () => {
           await app.ready()
 
           const response = await app.inject().post('/').end()
-          expect(response.statusCode).toBe(200)
+
+          assert.equal(response.statusCode, 200)
         })
       })
     })
@@ -125,14 +133,12 @@ describe('fastifyAwilixPlugin', () => {
     it('throws an error if both injection mode and container are specified', async () => {
       app = fastify({ logger: true })
 
-      await expect(() =>
-        app.register(fastifyAwilixPlugin, {
-          injectionMode: 'CLASSIC',
-          container: diContainerClassic,
-        }),
-      ).rejects.toThrow(
-        /If you are passing pre-created container explicitly, you cannot specify injection mode/,
-      )
+      await assert.rejects(async () => {
+        await app.register(fastifyAwilixPlugin, {
+          injectionMode: 'PROXY',
+          container: diContainer,
+        })
+      }, /If you are passing pre-created container explicitly, you cannot specify injection mode/)
     })
   })
 })

@@ -13,7 +13,7 @@
   "type": "commonjs",
   "types": "lib/index.d.ts",
   "scripts": {
-    "test": "jest --config=jest.config.json",
+    "test": "node --test test/*.test.js",
     "test:coverage": "jest --config=jest.config.json --coverage",
     "test:ci": "npm run lint && npm run test:typescript && npm run test:coverage",
     "test:typescript": "tsd",
