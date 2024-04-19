@@ -34,8 +34,7 @@ const variations = [
 function getCompletedRequests(output) {
   return output.filter((line) => {
     try {
-      const parsed = JSON.parse(line)
-      return parsed.msg === 'request completed'
+      return JSON.parse(line).msg === 'request completed'
     } catch (e) {
       return false
     }
@@ -46,17 +45,15 @@ describe('fastifyAwilixPlugin', () => {
   let app, output
   let write = process.stdout.write
 
-  afterEach(() => {
-    process.stdout.write = write
-    return app.close()
-  })
-
   beforeEach(() => {
     storedUserRepository = undefined
     output = []
-    process.stdout.write = (str) => {
-      output.push(str)
-    }
+    process.stdout.write = (str) => output.push(str)
+  })
+
+  afterEach(() => {
+    process.stdout.write = write
+    return app.close()
   })
 
   variations.forEach((variation) => {
