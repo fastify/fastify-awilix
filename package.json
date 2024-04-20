@@ -13,9 +13,8 @@
   "type": "commonjs",
   "types": "lib/index.d.ts",
   "scripts": {
-    "test": "node --test",
-    "test:ci": "npm run lint && npm run test:typescript && npm run test:coverage",
-    "test:coverage": "c8 --100 npm run test",
+    "test": "c8 --100 node --test",
+    "test:ci": "npm run lint && npm run test:typescript && npm run test",
     "test:typescript": "tsd",
     "lint": "eslint \"lib/**/*.js\" lib/index.js",
     "lint:fix": "eslint --fix \"lib/**/*.js\" lib/index.js",
