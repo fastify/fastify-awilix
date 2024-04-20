@@ -2,6 +2,9 @@
 
 const fastify = require('fastify')
 const { asClass, Lifetime } = require('awilix')
+const { describe, it, beforeEach, afterEach } = require('node:test')
+const assert = require('node:assert')
+
 const { fastifyAwilixPlugin, diContainer, diContainerClassic } = require('../lib')
 
 class UserRepository {
@@ -28,14 +31,29 @@ const variations = [
   },
 ]
 
-describe('fastifyAwilixPlugin', () => {
-  let app
-  afterEach(() => {
-    return app.close()
+function getCompletedRequests(output) {
+  return output.filter((line) => {
+    try {
+      return JSON.parse(line).msg === 'request completed'
+    } catch (e) {
+      return false
+    }
   })
+}
+
+describe('fastifyAwilixPlugin', () => {
+  let app, output
+  let write = process.stdout.write
 
   beforeEach(() => {
     storedUserRepository = undefined
+    output = []
+    process.stdout.write = (str) => output.push(str)
+  })
+
+  afterEach(() => {
+    process.stdout.write = write
+    return app.close()
   })
 
   variations.forEach((variation) => {
@@ -43,7 +61,8 @@ describe('fastifyAwilixPlugin', () => {
       const endpoint = async (req, res) => {
         const userRepository = app.diContainer.resolve('userRepository')
         storedUserRepository = userRepository
-        expect(userRepository.disposeCounter).toBe(0)
+
+        assert.equal(userRepository.disposeCounter, 0)
 
         res.send({
           status: 'OK',
@@ -56,8 +75,9 @@ describe('fastifyAwilixPlugin', () => {
           const userRepositoryScoped = req.diScope.resolve('userRepositoryScoped')
           storedUserRepository = userRepository
           storedUserRepositoryScoped = userRepositoryScoped
-          expect(userRepository.disposeCounter).toBe(0)
-          expect(userRepositoryScoped.disposeCounter).toBe(0)
+
+          assert.equal(userRepository.disposeCounter, 0)
+          assert.equal(userRepositoryScoped.disposeCounter, 0)
 
           res.send({
             status: 'OK',
@@ -82,11 +102,13 @@ describe('fastifyAwilixPlugin', () => {
           await app.ready()
 
           const response = await app.inject().post('/').end()
-          expect(response.statusCode).toBe(200)
-          expect(storedUserRepository.disposeCounter).toBe(0)
+
+          assert.equal(response.statusCode, 200)
+          assert.equal(storedUserRepository.disposeCounter, 0)
 
           await app.close()
-          expect(storedUserRepository.disposeCounter).toBe(1)
+
+          assert.equal(storedUserRepository.disposeCounter, 1)
         })
 
         it('do not dispose app-scoped singletons on sending response', async () => {
@@ -107,11 +129,13 @@ describe('fastifyAwilixPlugin', () => {
           await app.ready()
 
           const response = await app.inject().post('/').end()
-          expect(response.statusCode).toBe(200)
-          expect(storedUserRepository.disposeCounter).toBe(0)
+
+          assert.equal(response.statusCode, 200)
+          assert.equal(storedUserRepository.disposeCounter, 0)
 
           await app.close()
-          expect(storedUserRepository.disposeCounter).toBe(0)
+
+          assert.equal(storedUserRepository.disposeCounter, 0)
         })
 
         it('do not attempt to dispose request scope if response was returned before it was even created', async () => {
@@ -142,12 +166,14 @@ describe('fastifyAwilixPlugin', () => {
           await app.ready()
 
           const response = await app.inject().options('/').end()
-          expect(response.statusCode).toBe(200)
-          expect(storedUserRepository).toBeUndefined()
+
+          assert.equal(response.statusCode, 200)
+          assert.equal(storedUserRepository, undefined)
 
           await app.close()
-          expect(storedError).toBeNull()
-          expect(storedUserRepository).toBeUndefined()
+
+          assert.equal(storedError, null)
+          assert.equal(storedUserRepository, undefined)
         })
 
         it('dispose request-scoped singletons on sending response', async () => {
@@ -178,13 +204,15 @@ describe('fastifyAwilixPlugin', () => {
           await app.ready()
 
           const response = await app.inject().post('/').end()
-          expect(response.statusCode).toBe(200)
-          expect(storedUserRepositoryScoped.disposeCounter).toBe(1)
-          expect(storedUserRepository.disposeCounter).toBe(0)
+
+          assert.equal(response.statusCode, 200)
+          assert.equal(storedUserRepositoryScoped.disposeCounter, 1)
+          assert.equal(storedUserRepository.disposeCounter, 0)
 
           await app.close()
-          expect(storedUserRepositoryScoped.disposeCounter).toBe(1)
-          expect(storedUserRepository.disposeCounter).toBe(0)
+
+          assert.equal(storedUserRepositoryScoped.disposeCounter, 1)
+          assert.equal(storedUserRepository.disposeCounter, 0)
         })
 
         it('do not dispose request-scoped singletons twice on closing app', async () => {
@@ -215,25 +243,20 @@ describe('fastifyAwilixPlugin', () => {
           await app.ready()
 
           const response = await app.inject().post('/').end()
-          expect(response.statusCode).toBe(200)
-          expect(storedUserRepositoryScoped.disposeCounter).toBe(1)
-          expect(storedUserRepository.disposeCounter).toBe(0)
+
+          assert.equal(response.statusCode, 200)
+          assert.equal(storedUserRepositoryScoped.disposeCounter, 1)
+          assert.equal(storedUserRepository.disposeCounter, 0)
 
           await app.close()
-          expect(storedUserRepositoryScoped.disposeCounter).toBe(1)
-          expect(storedUserRepository.disposeCounter).toBe(1)
+
+          assert.equal(storedUserRepositoryScoped.disposeCounter, 1)
+          assert.equal(storedUserRepository.disposeCounter, 1)
         })
       })
 
       describe('response logging', () => {
         it('should only produce one "request completed" log with dispose settings enabled', async () => {
-          let requestCompletedLogCount = 0
-          jest.spyOn(process.stdout, 'write').mockImplementation((data) => {
-            const log = JSON.parse(data)
-            if (log.msg === 'request completed') requestCompletedLogCount += 1
-            return true
-          })
-
           app = fastify({ logger: true })
           app.register(fastifyAwilixPlugin, {
             disposeOnClose: true,
@@ -253,18 +276,14 @@ describe('fastifyAwilixPlugin', () => {
           await app.inject().post('/').end()
 
           await app.close()
-          expect(requestCompletedLogCount).toBe(1)
+
+          const completedRequests = getCompletedRequests(output)
+          assert.equal(completedRequests.length, 1)
         })
 
         it('should only produce one "request completed" log with dispose settings disabled', async () => {
-          let requestCompletedLogCount = 0
-          jest.spyOn(process.stdout, 'write').mockImplementation((data) => {
-            const log = JSON.parse(data)
-            if (log.msg === 'request completed') requestCompletedLogCount += 1
-            return true
-          })
-
           app = fastify({ logger: true })
+
           app.register(fastifyAwilixPlugin, {
             disposeOnClose: false,
             disposeOnResponse: false,
@@ -283,7 +302,9 @@ describe('fastifyAwilixPlugin', () => {
           await app.inject().post('/').end()
 
           await app.close()
-          expect(requestCompletedLogCount).toBe(1)
+
+          const completedRequests = getCompletedRequests(output)
+          assert.equal(completedRequests.length, 1)
         })
       })
     })

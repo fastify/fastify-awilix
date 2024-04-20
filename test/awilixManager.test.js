@@ -2,6 +2,9 @@
 
 const { asClass } = require('awilix')
 const fastify = require('fastify')
+const { describe, it, beforeEach, afterEach } = require('node:test')
+const assert = require('node:assert')
+
 const { diContainer, diContainerClassic, fastifyAwilixPlugin } = require('../lib')
 
 let isInittedGlobal = false
@@ -40,10 +43,12 @@ describe('awilixManager', () => {
   variations.forEach((variation) => {
     describe(variation.injectionMode, () => {
       let app
+
       beforeEach(() => {
         isInittedGlobal = false
         isDisposedGlobal = false
       })
+
       afterEach(async () => {
         await variation.container.dispose()
 
@@ -68,7 +73,7 @@ describe('awilixManager', () => {
         })
         await app.ready()
 
-        expect(isInittedGlobal).toBe(true)
+        assert.equal(isInittedGlobal, true)
       })
 
       it('performs async init if enabled', async () => {
@@ -86,7 +91,7 @@ describe('awilixManager', () => {
         })
         await app.ready()
 
-        expect(isInittedGlobal).toBe(true)
+        assert.equal(isInittedGlobal, true)
       })
 
       it('performs async dispose if enabled', async () => {
@@ -105,7 +110,7 @@ describe('awilixManager', () => {
         await app.ready()
         await app.close()
 
-        expect(isDisposedGlobal).toBe(true)
+        assert.equal(isDisposedGlobal, true)
       })
     })
   })
