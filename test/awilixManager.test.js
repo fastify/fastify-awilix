@@ -11,19 +11,17 @@ let isInittedGlobal = false
 let isDisposedGlobal = false
 
 class InitSetClass {
-  constructor() {
+  constructor () {
     isInittedGlobal = true
   }
 }
 
 class AsyncInitSetClass {
-  constructor() {}
-
-  async init() {
+  async init () {
     isInittedGlobal = true
   }
 
-  async dispose() {
+  async dispose () {
     isDisposedGlobal = true
   }
 }
@@ -31,12 +29,12 @@ class AsyncInitSetClass {
 const variations = [
   {
     injectionMode: 'PROXY',
-    container: diContainer,
+    container: diContainer
   },
   {
     injectionMode: 'CLASSIC',
-    container: diContainerClassic,
-  },
+    container: diContainerClassic
+  }
 ]
 
 describe('awilixManager', () => {
@@ -63,13 +61,13 @@ describe('awilixManager', () => {
           'dependency1',
           asClass(InitSetClass, {
             lifetime: 'SINGLETON',
-            eagerInject: true,
-          }),
+            eagerInject: true
+          })
         )
         app = fastify({ logger: false })
         await app.register(fastifyAwilixPlugin, {
           eagerInject: true,
-          injectionMode: variation.injectionMode,
+          injectionMode: variation.injectionMode
         })
         await app.ready()
 
@@ -81,13 +79,13 @@ describe('awilixManager', () => {
           'dependency1',
           asClass(AsyncInitSetClass, {
             lifetime: 'SINGLETON',
-            asyncInit: 'init',
-          }),
+            asyncInit: 'init'
+          })
         )
         app = fastify({ logger: false })
         await app.register(fastifyAwilixPlugin, {
           asyncInit: true,
-          injectionMode: variation.injectionMode,
+          injectionMode: variation.injectionMode
         })
         await app.ready()
 
@@ -99,13 +97,13 @@ describe('awilixManager', () => {
           'dependency1',
           asClass(AsyncInitSetClass, {
             lifetime: 'SINGLETON',
-            asyncDispose: 'dispose',
-          }),
+            asyncDispose: 'dispose'
+          })
         )
         app = fastify({ logger: false })
         await app.register(fastifyAwilixPlugin, {
           asyncDispose: true,
-          injectionMode: variation.injectionMode,
+          injectionMode: variation.injectionMode
         })
         await app.ready()
         await app.close()
