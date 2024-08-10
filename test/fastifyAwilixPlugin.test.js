@@ -8,7 +8,7 @@ const assert = require('node:assert')
 const { diContainer, diContainerClassic, fastifyAwilixPlugin } = require('../lib')
 
 class UserServiceClassic {
-  constructor(userRepository, maxUserName, maxEmail) {
+  constructor (userRepository, maxUserName, maxEmail) {
     this.userRepository = userRepository
     this.maxUserName = maxUserName
     this.maxEmail = maxEmail
@@ -16,7 +16,7 @@ class UserServiceClassic {
 }
 
 class UserServiceProxy {
-  constructor({ userRepository, maxUserName, maxEmail }) {
+  constructor ({ userRepository, maxUserName, maxEmail }) {
     this.userRepository = userRepository
     this.maxUserName = maxUserName
     this.maxEmail = maxEmail
@@ -29,21 +29,21 @@ const variations = [
     container: diContainer,
     optsContainer: undefined,
     optsInjectionMode: undefined,
-    UserService: UserServiceProxy,
+    UserService: UserServiceProxy
   },
   {
     injectionMode: 'PROXY',
     container: diContainer,
     optsContainer: undefined,
     optsInjectionMode: 'PROXY',
-    UserService: UserServiceProxy,
+    UserService: UserServiceProxy
   },
   {
     injectionMode: 'CLASSIC',
     container: diContainerClassic,
     optsContainer: undefined,
     optsInjectionMode: 'CLASSIC',
-    UserService: UserServiceClassic,
+    UserService: UserServiceClassic
   },
 
   {
@@ -51,15 +51,15 @@ const variations = [
     container: diContainer,
     optsContainer: diContainer,
     optsInjectionMode: undefined,
-    UserService: UserServiceProxy,
+    UserService: UserServiceProxy
   },
   {
     injectionMode: 'CLASSIC',
     container: diContainerClassic,
     optsContainer: diContainerClassic,
     optsInjectionMode: undefined,
-    UserService: UserServiceClassic,
-  },
+    UserService: UserServiceClassic
+  }
 ]
 
 describe('fastifyAwilixPlugin', () => {
@@ -74,7 +74,7 @@ describe('fastifyAwilixPlugin', () => {
       describe('inject singleton', () => {
         it('injects correctly', async () => {
           class UserRepository {
-            constructor() {
+            constructor () {
               this.id = 'userRepository'
             }
           }
@@ -100,22 +100,22 @@ describe('fastifyAwilixPlugin', () => {
             assert.equal(maxUserPassword, 20)
 
             res.send({
-              status: 'OK',
+              status: 'OK'
             })
           }
 
           app.register(fastifyAwilixPlugin, {
             injectionMode: variation.optsInjectionMode,
-            container: variation.optsContainer,
+            container: variation.optsContainer
           })
           variation.container.register({
             userService: asClass(variation.UserService),
             userRepository: asClass(UserRepository, { lifetime: Lifetime.SINGLETON }),
             maxUserName: asFunction(maxUserNameVariableFactory, { lifetime: Lifetime.SINGLETON }),
             maxUserPassword: asFunction(maxUserPasswordVariableFactory, {
-              lifetime: Lifetime.SINGLETON,
+              lifetime: Lifetime.SINGLETON
             }),
-            maxEmail: asValue(40),
+            maxEmail: asValue(40)
           })
 
           app.post('/', endpoint)
@@ -136,7 +136,7 @@ describe('fastifyAwilixPlugin', () => {
       await assert.rejects(async () => {
         await app.register(fastifyAwilixPlugin, {
           injectionMode: 'PROXY',
-          container: diContainer,
+          container: diContainer
         })
       }, /If you are passing pre-created container explicitly, you cannot specify injection mode/)
     })

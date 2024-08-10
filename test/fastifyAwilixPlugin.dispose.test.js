@@ -8,11 +8,11 @@ const assert = require('node:assert')
 const { fastifyAwilixPlugin, diContainer, diContainerClassic } = require('../lib')
 
 class UserRepository {
-  constructor() {
+  constructor () {
     this.disposeCounter = 0
   }
 
-  dispose() {
+  dispose () {
     this.disposeCounter++
   }
 }
@@ -23,15 +23,15 @@ let storedUserRepositoryScoped
 const variations = [
   {
     injectionMode: 'PROXY',
-    container: diContainer,
+    container: diContainer
   },
   {
     injectionMode: 'CLASSIC',
-    container: diContainerClassic,
-  },
+    container: diContainerClassic
+  }
 ]
 
-function getCompletedRequests(output) {
+function getCompletedRequests (output) {
   return output.filter((line) => {
     try {
       return JSON.parse(line).msg === 'request completed'
@@ -43,7 +43,7 @@ function getCompletedRequests(output) {
 
 describe('fastifyAwilixPlugin', () => {
   let app, output
-  let write = process.stdout.write
+  const write = process.stdout.write
 
   beforeEach(() => {
     storedUserRepository = undefined
@@ -65,7 +65,7 @@ describe('fastifyAwilixPlugin', () => {
         assert.equal(userRepository.disposeCounter, 0)
 
         res.send({
-          status: 'OK',
+          status: 'OK'
         })
       }
 
@@ -80,7 +80,7 @@ describe('fastifyAwilixPlugin', () => {
           assert.equal(userRepositoryScoped.disposeCounter, 0)
 
           res.send({
-            status: 'OK',
+            status: 'OK'
           })
         }
 
@@ -89,13 +89,13 @@ describe('fastifyAwilixPlugin', () => {
           app.register(fastifyAwilixPlugin, {
             disposeOnClose: true,
             disposeOnResponse: false,
-            injectionMode: variation.injectionMode,
+            injectionMode: variation.injectionMode
           })
           variation.container.register({
             userRepository: asClass(UserRepository, {
               lifetime: Lifetime.SINGLETON,
-              dispose: (service) => service.dispose(),
-            }),
+              dispose: (service) => service.dispose()
+            })
           })
 
           app.post('/', endpoint)
@@ -116,13 +116,13 @@ describe('fastifyAwilixPlugin', () => {
           app.register(fastifyAwilixPlugin, {
             disposeOnClose: false,
             disposeOnResponse: true,
-            injectionMode: variation.injectionMode,
+            injectionMode: variation.injectionMode
           })
           variation.container.register({
             userRepository: asClass(UserRepository, {
               lifetime: Lifetime.SINGLETON,
-              dispose: (service) => service.dispose(),
-            }),
+              dispose: (service) => service.dispose()
+            })
           })
 
           app.post('/', endpoint)
@@ -147,13 +147,13 @@ describe('fastifyAwilixPlugin', () => {
           await app.register(fastifyAwilixPlugin, {
             disposeOnClose: false,
             disposeOnResponse: true,
-            injectionMode: variation.injectionMode,
+            injectionMode: variation.injectionMode
           })
           variation.container.register({
             userRepository: asClass(UserRepository, {
               lifetime: Lifetime.SINGLETON,
-              dispose: (service) => service.dispose(),
-            }),
+              dispose: (service) => service.dispose()
+            })
           })
 
           let storedError = null
@@ -181,21 +181,21 @@ describe('fastifyAwilixPlugin', () => {
           app.register(fastifyAwilixPlugin, {
             disposeOnClose: false,
             disposeOnResponse: true,
-            injectionMode: variation.injectionMode,
+            injectionMode: variation.injectionMode
           })
 
           variation.container.register({
             userRepository: asClass(UserRepository, {
               lifetime: Lifetime.SINGLETON,
-              dispose: (service) => service.dispose(),
-            }),
+              dispose: (service) => service.dispose()
+            })
           })
           app.addHook('onRequest', (request, reply, done) => {
             request.diScope.register({
               userRepositoryScoped: asClass(UserRepository, {
                 lifetime: Lifetime.SCOPED,
-                dispose: (service) => service.dispose(),
-              }),
+                dispose: (service) => service.dispose()
+              })
             })
             done()
           })
@@ -220,21 +220,21 @@ describe('fastifyAwilixPlugin', () => {
           app.register(fastifyAwilixPlugin, {
             disposeOnClose: true,
             disposeOnResponse: true,
-            injectionMode: variation.injectionMode,
+            injectionMode: variation.injectionMode
           })
 
           variation.container.register({
             userRepository: asClass(UserRepository, {
               lifetime: Lifetime.SINGLETON,
-              dispose: (service) => service.dispose(),
-            }),
+              dispose: (service) => service.dispose()
+            })
           })
           app.addHook('onRequest', (request, reply, done) => {
             request.diScope.register({
               userRepositoryScoped: asClass(UserRepository, {
                 lifetime: Lifetime.SCOPED,
-                dispose: (service) => service.dispose(),
-              }),
+                dispose: (service) => service.dispose()
+              })
             })
             done()
           })
@@ -261,13 +261,13 @@ describe('fastifyAwilixPlugin', () => {
           app.register(fastifyAwilixPlugin, {
             disposeOnClose: true,
             disposeOnResponse: true,
-            injectionMode: variation.injectionMode,
+            injectionMode: variation.injectionMode
           })
           variation.container.register({
             userRepository: asClass(UserRepository, {
               lifetime: Lifetime.SINGLETON,
-              dispose: (service) => service.dispose(),
-            }),
+              dispose: (service) => service.dispose()
+            })
           })
 
           app.post('/', endpoint)
@@ -287,13 +287,13 @@ describe('fastifyAwilixPlugin', () => {
           app.register(fastifyAwilixPlugin, {
             disposeOnClose: false,
             disposeOnResponse: false,
-            injectionMode: variation.injectionMode,
+            injectionMode: variation.injectionMode
           })
           variation.container.register({
             userRepository: asClass(UserRepository, {
               lifetime: Lifetime.SINGLETON,
-              dispose: (service) => service.dispose(),
-            }),
+              dispose: (service) => service.dispose()
+            })
           })
 
           app.post('/', endpoint)
