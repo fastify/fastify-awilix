@@ -25,14 +25,14 @@
   },
   "peerDependencies": {
     "awilix": ">=9.0.0",
-    "fastify": "^5.0.0-alpha.4"
+    "fastify": "^5.0.0"
   },
   "devDependencies": {
     "@fastify/pre-commit": "^2.1.0",
     "@types/node": "^22.0.0",
     "awilix": "^11.0.0",
     "c8": "^10.1.2",
-    "fastify": "^5.0.0-alpha.4",
+    "fastify": "^5.0.0",
     "snazzy": "^9.0.0",
     "standard": "^17.1.0",
     "tsd": "^0.31.0"
