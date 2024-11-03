@@ -20,8 +20,8 @@ const { fastifyAwilixPlugin } = require('@fastify/awilix')
 const fastify = require('fastify')
 
 app = fastify({ logger: true })
-app.register(fastifyAwilixPlugin, { 
-  disposeOnClose: true, 
+app.register(fastifyAwilixPlugin, {
+  disposeOnClose: true,
   disposeOnResponse: true,
   strictBooleanEnforced: true
 })
@@ -30,7 +30,7 @@ app.register(fastifyAwilixPlugin, {
 Then, register some modules for injection:
 
 ```js
-const { 
+const {
   diContainer, // this is an alias for diContainerProxy
   diContainerClassic, // this instance will be used for `injectionMode = 'CLASSIC'`
   diContainerProxy // this instance will be used by default
