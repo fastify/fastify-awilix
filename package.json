@@ -42,6 +42,9 @@
     "type": "git",
     "url": "git://github.com/fastify/fastify-awilix.git"
   },
+  "bugs": {
+    "url": "https://github.com/fastify/fastify-awilix/issues"
+  },
   "keywords": [
     "fastify",
     "plugin",
