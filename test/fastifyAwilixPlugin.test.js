@@ -6,7 +6,6 @@ const { describe, it, afterEach } = require('node:test')
 const assert = require('node:assert')
 
 const { diContainer, diContainerClassic, fastifyAwilixPlugin } = require('../lib')
-const pino = require('pino')
 
 class UserServiceClassic {
   constructor (userRepository, maxUserName, maxEmail) {
@@ -147,11 +146,7 @@ describe('fastifyAwilixPlugin', () => {
 
   describe('plugin', () => {
     it('handles DI timeout', async () => {
-      app = fastify({
-        loggerInstance: pino({
-          level: 'debug'
-        })
-      })
+      app = fastify({ logger: { level: 'debug' } })
       app.register(fastifyAwilixPlugin, {
         container: diContainer,
         asyncInit: true
