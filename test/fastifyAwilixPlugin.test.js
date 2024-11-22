@@ -69,61 +69,63 @@ describe('fastifyAwilixPlugin', () => {
     return app.close()
   })
 
-  variations.forEach((variation) => {
-    describe(variation.injectionMode, () => {
-      describe('inject singleton', () => {
-        it('injects correctly', async () => {
-          class UserRepository {
-            constructor () {
-              this.id = 'userRepository'
+  describe('variations', () => {
+    variations.forEach((variation) => {
+      describe(variation.injectionMode, () => {
+        describe('inject singleton', () => {
+          it('injects correctly', async () => {
+            class UserRepository {
+              constructor () {
+                this.id = 'userRepository'
+              }
             }
-          }
 
-          const maxUserNameVariableFactory = () => {
-            return 10
-          }
+            const maxUserNameVariableFactory = () => {
+              return 10
+            }
 
-          const maxUserPasswordVariableFactory = async () => {
-            return await Promise.resolve(20).then((result) => result)
-          }
+            const maxUserPasswordVariableFactory = async () => {
+              return await Promise.resolve(20).then((result) => result)
+            }
 
-          app = fastify({ logger: true })
-          const endpoint = async (req, res) => {
-            const userService = app.diContainer.resolve('userService')
+            app = fastify({ logger: true })
+            const endpoint = async (req, res) => {
+              const userService = app.diContainer.resolve('userService')
 
-            assert.equal(userService.userRepository.id, 'userRepository')
-            assert.equal(userService.maxUserName, 10)
-            assert.equal(userService.maxEmail, 40)
+              assert.equal(userService.userRepository.id, 'userRepository')
+              assert.equal(userService.maxUserName, 10)
+              assert.equal(userService.maxEmail, 40)
 
-            const maxUserPassword = await req.diScope.resolve('maxUserPassword')
+              const maxUserPassword = await req.diScope.resolve('maxUserPassword')
 
-            assert.equal(maxUserPassword, 20)
+              assert.equal(maxUserPassword, 20)
 
-            res.send({
-              status: 'OK'
+              res.send({
+                status: 'OK'
+              })
+            }
+
+            app.register(fastifyAwilixPlugin, {
+              injectionMode: variation.optsInjectionMode,
+              container: variation.optsContainer
             })
-          }
+            variation.container.register({
+              userService: asClass(variation.UserService),
+              userRepository: asClass(UserRepository, { lifetime: Lifetime.SINGLETON }),
+              maxUserName: asFunction(maxUserNameVariableFactory, { lifetime: Lifetime.SINGLETON }),
+              maxUserPassword: asFunction(maxUserPasswordVariableFactory, {
+                lifetime: Lifetime.SINGLETON
+              }),
+              maxEmail: asValue(40)
+            })
 
-          app.register(fastifyAwilixPlugin, {
-            injectionMode: variation.optsInjectionMode,
-            container: variation.optsContainer
+            app.post('/', endpoint)
+            await app.ready()
+
+            const response = await app.inject().post('/').end()
+
+            assert.equal(response.statusCode, 200)
           })
-          variation.container.register({
-            userService: asClass(variation.UserService),
-            userRepository: asClass(UserRepository, { lifetime: Lifetime.SINGLETON }),
-            maxUserName: asFunction(maxUserNameVariableFactory, { lifetime: Lifetime.SINGLETON }),
-            maxUserPassword: asFunction(maxUserPasswordVariableFactory, {
-              lifetime: Lifetime.SINGLETON
-            }),
-            maxEmail: asValue(40)
-          })
-
-          app.post('/', endpoint)
-          await app.ready()
-
-          const response = await app.inject().post('/').end()
-
-          assert.equal(response.statusCode, 200)
         })
       })
     })
@@ -139,6 +141,27 @@ describe('fastifyAwilixPlugin', () => {
           container: diContainer
         })
       }, /If you are passing pre-created container explicitly, you cannot specify injection mode/)
+    })
+  })
+
+  describe('plugin', () => {
+    it('handles DI timeout', async () => {
+      app = fastify({ logger: { level: 'debug' } })
+      app.register(fastifyAwilixPlugin, {
+        container: diContainer,
+        asyncInit: true
+      })
+      diContainer.register('throwAnError', asFunction(() => {
+        return {
+          asyncInit: async () => {
+            throw new Error('failed to init')
+          }
+        }
+      }, {
+        asyncInit: 'asyncInit',
+        eagerInject: true
+      }))
+      await assert.rejects(app.ready(), /failed to init/)
     })
   })
 })
