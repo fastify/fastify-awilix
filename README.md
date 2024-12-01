@@ -1,7 +1,7 @@
 # @fastify/awilix
 
-[![NPM Version][npm-image]][npm-url]
-[![Build Status](https://github.com/fastify/fastify-awilix/workflows/ci/badge.svg)](https://github.com/fastify/fastify-awilix/actions)
+![CI](https://github.com/fastify/fastify-awilix/workflows/CI/badge.svg)
+[![NPM version](https://img.shields.io/npm/v/@fastify/awilix)](https://www.npmjs.com/package/@fastify/awilix)
 [![neostandard javascript style](https://img.shields.io/badge/code_style-neostandard-brightgreen?style=flat)](https://github.com/neostandard/neostandard)
 
 Dependency injection support for fastify framework, using [awilix](https://github.com/jeffijoe/awilix).
@@ -198,7 +198,6 @@ await app.ready()
 
 For more advanced use-cases, check the official [awilix documentation](https://github.com/jeffijoe/awilix)
 
-[npm-image]: https://img.shields.io/npm/v/@fastify/awilix.svg
-[npm-url]: https://npmjs.org/package/@fastify/awilix
-[downloads-image]: https://img.shields.io/npm/dm/@fastify/awilix.svg
-[downloads-url]: https://npmjs.org/package/@fastify/awilix
+## License
+
+Licensed under [MIT](./LICENSE).
