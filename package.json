@@ -9,6 +9,13 @@
       "email": "kibertoad@gmail.com"
     }
   ],
+  "contributors": [
+    {
+      "name": "Frazer Smith",
+      "email": "frazer.dev@icloud.com",
+      "url": "https://github.com/fdawgs"
+    }
+  ],
   "main": "lib/index.js",
   "type": "commonjs",
   "types": "lib/index.d.ts",
@@ -37,6 +44,16 @@
     "tsd": "^0.31.0"
   },
   "homepage": "http://github.com/fastify/fastify-awilix",
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/fastify"
+    },
+    {
+      "type": "opencollective",
+      "url": "https://opencollective.com/fastify"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/fastify/fastify-awilix.git"
