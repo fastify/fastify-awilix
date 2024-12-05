@@ -1,6 +1,6 @@
 # @fastify/awilix
 
-![CI](https://github.com/fastify/fastify-awilix/workflows/CI/badge.svg?branch=main)
+[![CI](https://github.com/fastify/fastify-awilix/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/fastify/fastify-awilix/actions/workflows/ci.yml)
 [![NPM version](https://img.shields.io/npm/v/@fastify/awilix)](https://www.npmjs.com/package/@fastify/awilix)
 [![neostandard javascript style](https://img.shields.io/badge/code_style-neostandard-brightgreen?style=flat)](https://github.com/neostandard/neostandard)
 
