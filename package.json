@@ -40,8 +40,8 @@
     "test:unit": "c8 --100 node --test"
   },
   "dependencies": {
-    "awilix-manager": "^5.1.0",
-    "fastify-plugin": "^5.0.0"
+    "awilix-manager": "^6.0.0",
+    "fastify-plugin": "^5.0.1"
   },
   "peerDependencies": {
     "awilix": ">=9.0.0",
@@ -49,13 +49,13 @@
   },
   "devDependencies": {
     "@fastify/pre-commit": "^2.1.0",
-    "@types/node": "^22.0.0",
-    "awilix": "^12.0.1",
-    "c8": "^10.1.2",
+    "@types/node": "^22.10.2",
+    "awilix": "^12.0.4",
+    "c8": "^10.1.3",
     "eslint": "^9.17.0",
-    "fastify": "^5.1.0",
+    "fastify": "^5.2.0",
     "neostandard": "^0.12.0",
-    "tsd": "^0.31.0"
+    "tsd": "^0.31.2"
   },
   "homepage": "http://github.com/fastify/fastify-awilix",
   "funding": [
