@@ -58,7 +58,7 @@ describe('fastifyAwilixPlugin', () => {
 
   variations.forEach((variation) => {
     describe(variation.injectionMode, () => {
-      const endpoint = async (req, res) => {
+      const endpoint = async (_req, res) => {
         const userRepository = app.diContainer.resolve('userRepository')
         storedUserRepository = userRepository
 
@@ -140,7 +140,7 @@ describe('fastifyAwilixPlugin', () => {
 
         it('do not attempt to dispose request scope if response was returned before it was even created', async () => {
           app = fastify({ logger: true })
-          await app.addHook('onRequest', (request, reply) => {
+          await app.addHook('onRequest', (_request, reply) => {
             return reply.send('OK')
           })
 
@@ -157,7 +157,7 @@ describe('fastifyAwilixPlugin', () => {
           })
 
           let storedError = null
-          app.setErrorHandler((err, request, reply) => {
+          app.setErrorHandler((err, _request, reply) => {
             storedError = err
             return reply.send('Error')
           })
@@ -190,7 +190,7 @@ describe('fastifyAwilixPlugin', () => {
               dispose: (service) => service.dispose()
             })
           })
-          app.addHook('onRequest', (request, reply, done) => {
+          app.addHook('onRequest', (request, _reply, done) => {
             request.diScope.register({
               userRepositoryScoped: asClass(UserRepository, {
                 lifetime: Lifetime.SCOPED,
@@ -229,7 +229,7 @@ describe('fastifyAwilixPlugin', () => {
               dispose: (service) => service.dispose()
             })
           })
-          app.addHook('onRequest', (request, reply, done) => {
+          app.addHook('onRequest', (request, _reply, done) => {
             request.diScope.register({
               userRepositoryScoped: asClass(UserRepository, {
                 lifetime: Lifetime.SCOPED,
