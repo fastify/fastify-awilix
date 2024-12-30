@@ -50,7 +50,7 @@ const app: FastifyInstance = fastify()
 
 app.register(fastifyAwilixPlugin, {})
 
-app.addHook('onRequest', (request, reply, done) => {
+app.addHook('onRequest', (request, _reply, done) => {
   request.diScope.register({
     user: asValue({
       name: 'John Doe',
