@@ -35,7 +35,7 @@ function getCompletedRequests (output) {
   return output.filter((line) => {
     try {
       return JSON.parse(line).msg === 'request completed'
-    } catch (e) {
+    } catch {
       return false
     }
   })
