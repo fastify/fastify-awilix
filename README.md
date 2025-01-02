@@ -8,7 +8,7 @@ Dependency injection support for fastify framework, using [awilix](https://githu
 
 ## Getting started
 
-First install the package and awilix:
+First, install the package and awilix:
 
 ```bash
 npm i @fastify/awilix awilix
@@ -85,10 +85,10 @@ app.post('/', async (req, res) => {
 
 `injectionMode` - whether to use PROXY or CLASSIC injection mode. See [awilix documentation](https://www.npmjs.com/package/awilix#injection-modes) for details. Default is 'PROXY'.
 
-`container` - pre-created AwilixContainer instance that should be used by the plugin. By default plugin uses its own instance. Note that you can't specify both `injectionMode` and `container` parameters at the same time.
+`container` - pre-created AwilixContainer instance that should be used by the plugin. By default, the plugin uses its own instance. Note that you can't specify both `injectionMode` and `container` parameters at the same time.
 
 `disposeOnClose` - automatically invoke configured `dispose` for app-level `diContainer` hooks when the fastify instance is closed.
-Disposal is triggered within `onClose` fastify hook.
+Disposal is triggered within an `onClose` fastify hook.
 Default value is `true`
 
 `disposeOnResponse` - automatically invoke configured `dispose` for request-level `diScope` hooks after the reply is sent.
@@ -104,7 +104,7 @@ Default value is `false`
 `eagerInject` - whether to process `eagerInject` fields in DI resolver configuration, which instantiates and caches module immediately. Disabling this will make app startup slightly faster.
 Default value is `false`
 
-`strictBooleanEnforced` - whether to throw an error if `enabled` field in a resolver configuration is set with unsupported value (anything different from `true` and `false`). It is recommended to set this to `true`, which will be a default value in the next semver major release.
+`strictBooleanEnforced` - whether to throw an error if `enabled` field in a resolver configuration is set with an unsupported value (anything different from `true` and `false`). It is recommended to set this to `true`, which will be a default value in the next semver major release.
 Default value is `false`
 
 ## Defining classes
@@ -147,9 +147,9 @@ diContainer.register({
 
 ## Typescript usage
 
-By default `@fastify/awilix` is using generic empty `Cradle` and `RequestCradle` interfaces, it is possible extend them with your own types:
+By default `@fastify/awilix` is using generic empty `Cradle` and `RequestCradle` interfaces, it is possible to extend them with your own types:
 
-`awilix` defines Cradle as a proxy, and calling getters on it will trigger a container.resolve for an according module. [Read more](https://github.com/jeffijoe/awilix#containercradle)
+`awilix` defines Cradle as a proxy, and calling getters on it will trigger a `container.resolve` for an according module. [Read more](https://github.com/jeffijoe/awilix#containercradle).
 
 ```typescript
 declare module '@fastify/awilix' {
@@ -169,9 +169,9 @@ request.diScope.resolve('userService')
 request.diScope.resolve('user')
 ```
 
-[Find more in tests](lib/index.test-d.ts) or in [example from awilix documentation](https://github.com/jeffijoe/awilix/blob/master/examples/typescript/src/index.ts)
+Find more in [tests](lib/index.test-d.ts) or [examples in the awilix documentation](https://github.com/jeffijoe/awilix/blob/master/examples/typescript/src/index.ts).
 
-## Asynchronous init, dispose and eager injection
+## Asynchronous init, dispose, and eager injection
 
 `fastify-awilix` supports extended awilix resolver options, provided by [awilix-manager](https://github.com/kibertoad/awilix-manager#getting-started):
 
@@ -196,7 +196,7 @@ await app.ready()
 
 ## Advanced DI configuration
 
-For more advanced use-cases, check the official [awilix documentation](https://github.com/jeffijoe/awilix)
+For more advanced use cases, check the official [awilix documentation](https://github.com/jeffijoe/awilix).
 
 ## License
 
