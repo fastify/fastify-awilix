@@ -134,7 +134,7 @@ class UserRepository {
 }
 
 diContainer.register({
-  userService: asClass(UserRepository, {
+  userService: asClass(UserService, {
     lifetime: Lifetime.SINGLETON,
     dispose: (module) => module.dispose(),
   }),
