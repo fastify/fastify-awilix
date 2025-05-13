@@ -106,6 +106,8 @@ describe('fastifyAwilixPlugin', () => {
             }
 
             app.register(fastifyAwilixPlugin, {
+              asyncInit: false,
+              eagerInject: false,
               injectionMode: variation.optsInjectionMode,
               container: variation.optsContainer
             })
@@ -137,6 +139,8 @@ describe('fastifyAwilixPlugin', () => {
 
       await assert.rejects(async () => {
         await app.register(fastifyAwilixPlugin, {
+          asyncInit: false,
+          eagerInject: false,
           injectionMode: 'PROXY',
           container: diContainer
         })
@@ -148,6 +152,7 @@ describe('fastifyAwilixPlugin', () => {
     it('handles DI timeout', async () => {
       app = fastify({ logger: { level: 'debug' } })
       app.register(fastifyAwilixPlugin, {
+        eagerInject: false,
         container: diContainer,
         asyncInit: true
       })

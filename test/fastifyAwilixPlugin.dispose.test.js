@@ -89,6 +89,7 @@ describe('fastifyAwilixPlugin', () => {
           app.register(fastifyAwilixPlugin, {
             disposeOnClose: true,
             disposeOnResponse: false,
+            asyncDispose: false,
             injectionMode: variation.injectionMode
           })
           variation.container.register({
@@ -116,6 +117,7 @@ describe('fastifyAwilixPlugin', () => {
           app.register(fastifyAwilixPlugin, {
             disposeOnClose: false,
             disposeOnResponse: true,
+            asyncDispose: false,
             injectionMode: variation.injectionMode
           })
           variation.container.register({
@@ -147,6 +149,7 @@ describe('fastifyAwilixPlugin', () => {
           await app.register(fastifyAwilixPlugin, {
             disposeOnClose: false,
             disposeOnResponse: true,
+            asyncDispose: false,
             injectionMode: variation.injectionMode
           })
           variation.container.register({
@@ -181,6 +184,7 @@ describe('fastifyAwilixPlugin', () => {
           app.register(fastifyAwilixPlugin, {
             disposeOnClose: false,
             disposeOnResponse: true,
+            asyncDispose: false,
             injectionMode: variation.injectionMode
           })
 
@@ -220,6 +224,7 @@ describe('fastifyAwilixPlugin', () => {
           app.register(fastifyAwilixPlugin, {
             disposeOnClose: true,
             disposeOnResponse: true,
+            asyncDispose: false,
             injectionMode: variation.injectionMode
           })
 
@@ -261,6 +266,7 @@ describe('fastifyAwilixPlugin', () => {
           app.register(fastifyAwilixPlugin, {
             disposeOnClose: true,
             disposeOnResponse: true,
+            asyncDispose: false,
             injectionMode: variation.injectionMode
           })
           variation.container.register({
@@ -287,6 +293,7 @@ describe('fastifyAwilixPlugin', () => {
           app.register(fastifyAwilixPlugin, {
             disposeOnClose: false,
             disposeOnResponse: false,
+            asyncDispose: false,
             injectionMode: variation.injectionMode
           })
           variation.container.register({
