@@ -96,16 +96,16 @@ Disposal is triggered within `onResponse` fastify hook.
 Default value is `true`
 
 `asyncInit` - whether to process `asyncInit` fields in DI resolver configuration. Note that all dependencies with asyncInit enabled are instantiated eagerly. Disabling this will make app startup slightly faster.
-Default value is `false`
+Default value is `true`
 
 `asyncDispose` - whether to process `asyncDispose` fields in DI resolver configuration when closing the fastify app. Disabling this will make app closing slightly faster.
-Default value is `false`
+Default value is `true`
 
 `eagerInject` - whether to process `eagerInject` fields in DI resolver configuration, which instantiates and caches module immediately. Disabling this will make app startup slightly faster.
-Default value is `false`
+Default value is `true`
 
-`strictBooleanEnforced` - whether to throw an error if `enabled` field in a resolver configuration is set with an unsupported value (anything different from `true` and `false`). It is recommended to set this to `true`, which will be a default value in the next semver major release.
-Default value is `false`
+`strictBooleanEnforced` - whether to throw an error if `enabled` field in a resolver configuration is set with an unsupported value (anything different from `true` and `false`).
+Default value is `true`
 
 ## Defining classes
 
