@@ -198,6 +198,31 @@ await app.ready()
 
 For more advanced use cases, check the official [awilix documentation](https://github.com/jeffijoe/awilix).
 
+## Defining awilix dependencies in plugin
+
+Relying on dependency injection in plugins is problematic, because plugins cannot know upfront how they can resolve dependencies from a fastify application.
+
+For this purpose there is a helper class available in `@fastify/awilix`:
+
+```ts
+import { FastifyDependencyProvider } from '@fastify/awilix'
+
+app = fastify({ logger: true })
+await app.register(fastifyAwilixPlugin, {
+  container: diContainer,
+})
+app.diContainer.register({
+  maxUserName: asValue('username'),
+})
+
+// ...
+
+function plugin (fastify, opts, next) {
+  const maxUserName = resolveDependencyFromApp<string>(fastify, 'maxUserName')
+  // 'username'
+}
+```
+
 ## License
 
 Licensed under [MIT](./LICENSE).

@@ -6,6 +6,7 @@ const { describe, it, afterEach } = require('node:test')
 const assert = require('node:assert')
 
 const { diContainer, diContainerClassic, fastifyAwilixPlugin } = require('../lib')
+const { resolveDependencyFromApp } = require('../lib/fastifyAwilixPlugin')
 
 class UserServiceClassic {
   constructor (userRepository, maxUserName, maxEmail) {
@@ -167,6 +168,23 @@ describe('fastifyAwilixPlugin', () => {
         eagerInject: true
       }))
       await assert.rejects(app.ready(), /failed to init/)
+    })
+  })
+
+  describe('FastifyDependencyProvider', () => {
+    it('resolves dependencies', async () => {
+      app = fastify({ logger: true })
+      await app.register(fastifyAwilixPlugin, {
+        container: diContainer,
+      })
+      app.diContainer.register({
+        maxUserName: asValue('username'),
+      })
+
+      const maxUserName = resolveDependencyFromApp(app, 'maxUserName')
+      assert.equal(maxUserName, 'username')
+
+      await app.close()
     })
   })
 })
