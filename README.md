@@ -198,7 +198,7 @@ await app.ready()
 
 For more advanced use cases, check the official [awilix documentation](https://github.com/jeffijoe/awilix).
 
-## Defining awilix dependencies in plugin
+## Defining awilix dependencies in plugins
 
 Relying on dependency injection in plugins is problematic, because plugins cannot know upfront how they can resolve dependencies from a fastify application.
 
