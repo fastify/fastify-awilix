@@ -1,5 +1,5 @@
 import { AwilixContainer } from 'awilix'
-import { FastifyPluginCallback } from 'fastify'
+import { FastifyInstance, FastifyPluginCallback } from 'fastify'
 import { AwilixManager } from 'awilix-manager'
 
 export interface Cradle {}
@@ -16,6 +16,11 @@ declare module 'fastify' {
     awilixManager: AwilixManager
   }
 }
+
+/**
+ * Tries to resolve the dependency and throws an error if it fails
+ */
+export function resolveDependencyFromApp<T> (app: FastifyInstance<any, any, any, any, any>, dependencyKey: string): T
 
 export type FastifyAwilixOptions = {
   disposeOnResponse?: boolean
