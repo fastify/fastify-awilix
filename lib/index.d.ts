@@ -1,6 +1,6 @@
 import { AwilixContainer } from 'awilix'
 import { FastifyPluginCallback } from 'fastify'
-import { AwilixManager } from 'awilix-manager'
+import { AwilixManager, Logger } from 'awilix-manager'
 
 export interface Cradle {}
 
@@ -26,6 +26,8 @@ export type FastifyAwilixOptions = {
   asyncDispose?: boolean
   eagerInject?: boolean
   strictBooleanEnforced?: boolean
+  enableDebugLogging?: boolean;
+  loggerFn?: Logger;
 }
 
 export const fastifyAwilixPlugin: FastifyPluginCallback<NonNullable<FastifyAwilixOptions>>

@@ -107,6 +107,12 @@ Default value is `true`
 `strictBooleanEnforced` - whether to throw an error if `enabled` field in a resolver configuration is set with an unsupported value (anything different from `true` and `false`).
 Default value is `true`
 
+`enableDebugLogging` - whether to log when each dependency starts and finishes initializing during the `asyncInit` phase. This is useful for debugging timeout issues during initialization, as it helps identify which dependencies are hanging or taking excessive time to set up.
+Default value is `false`
+
+`loggerFn` - callback function for handling log messages when `enableDebugLogging` is enabled. The function receives a single string parameter containing the log message.
+Default value is `console.log`
+
 ## Defining classes
 
 All dependency modules are resolved using either the constructor injection (for `asClass`) or the function argument (for `asFunction`), by passing the aggregated dependencies object, where keys
