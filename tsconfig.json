@@ -1,14 +1,16 @@
 {
   "compilerOptions": {
     "outDir": "dist",
-    "module": "commonjs",
+    "rootDir": "lib",
+    "module": "node16",
     "target": "es2015",
     "sourceMap": false,
     "declaration": true,
     "declarationMap": false,
     "types": ["node"],
     "strict": true,
-    "moduleResolution": "node",
+    "noEmit": true,
+    "moduleResolution": "node16",
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
@@ -17,7 +19,6 @@
     "noImplicitThis": true,
     "strictNullChecks": true,
     "importHelpers": true,
-    "baseUrl": ".",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
