@@ -3,19 +3,19 @@ import fastify, { FastifyInstance } from 'fastify'
 import { diContainer, diContainerClassic, FastifyAwilixOptions, fastifyAwilixPlugin, Cradle, RequestCradle } from './index'
 import { expect } from 'tstyche'
 
-expect({}).type.toBeAssignableTo<FastifyAwilixOptions>()
-expect({ disposeOnClose: false }).type.toBeAssignableTo<FastifyAwilixOptions>()
-expect({ container: diContainer }).type.toBeAssignableTo<FastifyAwilixOptions>()
-expect({ container: diContainerClassic }).type.toBeAssignableTo<FastifyAwilixOptions>()
-expect({ injectionMode: 'CLASSIC' } as const).type.toBeAssignableTo<FastifyAwilixOptions>()
-expect({ injectionMode: 'PROXY' } as const).type.toBeAssignableTo<FastifyAwilixOptions>()
-expect({ disposeOnResponse: false }).type.toBeAssignableTo<FastifyAwilixOptions>()
-expect({ asyncInit: false, asyncDispose: false }).type.toBeAssignableTo<FastifyAwilixOptions>()
-expect({ asyncInit: true, asyncDispose: true }).type.toBeAssignableTo<FastifyAwilixOptions>()
-expect({ eagerInject: true }).type.toBeAssignableTo<FastifyAwilixOptions>()
+expect<FastifyAwilixOptions>().type.toBeAssignableFrom({})
+expect<FastifyAwilixOptions>().type.toBeAssignableFrom({ disposeOnClose: false })
+expect<FastifyAwilixOptions>().type.toBeAssignableFrom({ container: diContainer })
+expect<FastifyAwilixOptions>().type.toBeAssignableFrom({ container: diContainerClassic })
+expect<FastifyAwilixOptions>().type.toBeAssignableFrom({ injectionMode: 'CLASSIC' } as const)
+expect<FastifyAwilixOptions>().type.toBeAssignableFrom({ injectionMode: 'PROXY' } as const)
+expect<FastifyAwilixOptions>().type.toBeAssignableFrom({ disposeOnResponse: false })
+expect<FastifyAwilixOptions>().type.toBeAssignableFrom({ asyncInit: false, asyncDispose: false })
+expect<FastifyAwilixOptions>().type.toBeAssignableFrom({ asyncInit: true, asyncDispose: true })
+expect<FastifyAwilixOptions>().type.toBeAssignableFrom({ eagerInject: true })
 
-expect({ strictBooleanEnforced: true }).type.toBeAssignableTo<FastifyAwilixOptions>()
-expect({ strictBooleanEnforced: false }).type.toBeAssignableTo<FastifyAwilixOptions>()
+expect<FastifyAwilixOptions>().type.toBeAssignableFrom({ strictBooleanEnforced: true })
+expect<FastifyAwilixOptions>().type.toBeAssignableFrom({ strictBooleanEnforced: false })
 
 interface MailService {
   greet(name: string): void
