@@ -29,9 +29,9 @@
       "url": "https://github.com/fdawgs"
     }
   ],
-  "main": "lib/index.js",
+  "main": "index.js",
   "type": "commonjs",
-  "types": "lib/index.d.ts",
+  "types": "types/index.d.ts",
   "scripts": {
     "lint": "eslint",
     "lint:fix": "eslint --fix",
@@ -88,8 +88,10 @@
   "files": [
     "README.md",
     "LICENSE",
+    "index.js",
     "lib/*",
-    "!lib/index.test-d.ts"
+    "types/index.d.ts",
+    "!types/index.tst.ts"
   ],
   "publishConfig": {
     "access": "public"

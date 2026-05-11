@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "lib",
+    "rootDir": "./",
     "module": "node16",
-    "target": "es2015",
+    "target": "es2022",
     "sourceMap": false,
     "declaration": true,
     "declarationMap": false,

@@ -5,7 +5,7 @@ const { asClass, Lifetime } = require('awilix')
 const { describe, it, beforeEach, afterEach } = require('node:test')
 const assert = require('node:assert')
 
-const { fastifyAwilixPlugin, diContainer, diContainerClassic } = require('../lib')
+const { fastifyAwilixPlugin, diContainer, diContainerClassic } = require('..')
 
 class UserRepository {
   constructor () {

@@ -5,7 +5,7 @@ const fastify = require('fastify')
 const { describe, it, beforeEach, afterEach } = require('node:test')
 const assert = require('node:assert')
 
-const { diContainer, diContainerClassic, fastifyAwilixPlugin } = require('../lib')
+const { diContainer, diContainerClassic, fastifyAwilixPlugin } = require('..')
 
 let isInittedGlobal = false
 let isDisposedGlobal = false
