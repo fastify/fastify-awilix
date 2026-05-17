@@ -1,6 +1,6 @@
 import { asValue, AwilixContainer } from 'awilix'
 import fastify, { FastifyInstance } from 'fastify'
-import { diContainer, diContainerClassic, FastifyAwilixOptions, fastifyAwilixPlugin, Cradle, RequestCradle } from './index'
+import { diContainer, diContainerClassic, FastifyAwilixOptions, fastifyAwilixPlugin, Cradle, RequestCradle } from '.'
 import { expect } from 'tstyche'
 
 expect<FastifyAwilixOptions>().type.toBeAssignableFrom({})

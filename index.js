@@ -5,7 +5,7 @@ const {
   fastifyAwilixPlugin,
   diContainerProxy,
   diContainerClassic
-} = require('./fastifyAwilixPlugin')
+} = require('./lib/fastifyAwilixPlugin')
 
 module.exports = {
   diContainer,
