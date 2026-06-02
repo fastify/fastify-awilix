@@ -40,7 +40,7 @@
     "test:unit": "c8 --100 node --test"
   },
   "dependencies": {
-    "awilix-manager": "^6.2.1",
+    "awilix-manager": "^7.0.0",
     "fastify-plugin": "^5.1.0"
   },
   "peerDependencies": {
