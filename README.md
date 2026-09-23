@@ -113,6 +113,9 @@ Default value is `false`
 `loggerFn` - callback function for handling log messages when `enableDebugLogging` is enabled. The function receives a single string parameter containing the log message.
 Default value is `console.log`
 
+`onNonBlockingInitError` - callback for errors thrown by dependencies registered with `asyncInit: { nonBlocking: true }`, which are not awaited during the `asyncInit` phase. The function receives the dependency name and the error.
+Default value logs them with `console.error`
+
 ## Defining classes
 
 All dependency modules are resolved using either the constructor injection (for `asClass`) or the function argument (for `asFunction`), by passing the aggregated dependencies object, where keys
