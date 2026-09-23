@@ -4,6 +4,7 @@ const { asClass } = require('awilix')
 const fastify = require('fastify')
 const { describe, it, beforeEach, afterEach } = require('node:test')
 const assert = require('node:assert')
+const { setImmediate } = require('node:timers/promises')
 
 const { diContainer, diContainerClassic, fastifyAwilixPlugin } = require('..')
 
@@ -116,7 +117,7 @@ describe('awilixManager', () => {
           }
         })
         await app.ready()
-        await new Promise((resolve) => setImmediate(resolve))
+        await setImmediate()
 
         assert.deepStrictEqual(reportedErrors, [{ dependencyName: 'dependency1', error: initError }])
       })
