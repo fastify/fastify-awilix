@@ -1,6 +1,6 @@
 import { AwilixContainer } from 'awilix'
 import { FastifyPluginCallback } from 'fastify'
-import { AwilixManager, Logger } from 'awilix-manager'
+import { AwilixManager, Logger, NonBlockingInitErrorHandler } from 'awilix-manager'
 
 export interface Cradle {}
 
@@ -28,6 +28,7 @@ export type FastifyAwilixOptions = {
   strictBooleanEnforced?: boolean
   enableDebugLogging?: boolean;
   loggerFn?: Logger;
+  onNonBlockingInitError?: NonBlockingInitErrorHandler;
 }
 
 export const fastifyAwilixPlugin: FastifyPluginCallback<NonNullable<FastifyAwilixOptions>>

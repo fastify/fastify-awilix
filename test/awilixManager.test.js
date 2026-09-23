@@ -92,6 +92,35 @@ describe('awilixManager', () => {
         assert.equal(isInittedGlobal, true)
       })
 
+      it('passes non-blocking init errors to onNonBlockingInitError', async () => {
+        const initError = new Error('init failed')
+        class AsyncInitFailClass {
+          async init () {
+            throw initError
+          }
+        }
+        variation.container.register(
+          'dependency1',
+          asClass(AsyncInitFailClass, {
+            lifetime: 'SINGLETON',
+            asyncInit: { method: 'init', nonBlocking: true }
+          })
+        )
+        const reportedErrors = []
+        app = fastify({ logger: false })
+        await app.register(fastifyAwilixPlugin, {
+          asyncInit: true,
+          injectionMode: variation.injectionMode,
+          onNonBlockingInitError: (dependencyName, error) => {
+            reportedErrors.push({ dependencyName, error })
+          }
+        })
+        await app.ready()
+        await new Promise((resolve) => setImmediate(resolve))
+
+        assert.deepStrictEqual(reportedErrors, [{ dependencyName: 'dependency1', error: initError }])
+      })
+
       it('performs async dispose if enabled', async () => {
         variation.container.register(
           'dependency1',

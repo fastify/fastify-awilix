@@ -16,6 +16,11 @@ expect<FastifyAwilixOptions>().type.toBeAssignableFrom({ eagerInject: true })
 
 expect<FastifyAwilixOptions>().type.toBeAssignableFrom({ strictBooleanEnforced: true })
 expect<FastifyAwilixOptions>().type.toBeAssignableFrom({ strictBooleanEnforced: false })
+expect<FastifyAwilixOptions>().type.toBeAssignableFrom({
+  onNonBlockingInitError: (dependencyName: string, error: unknown) => {
+    console.error(dependencyName, error)
+  }
+})
 
 interface MailService {
   greet(name: string): void
