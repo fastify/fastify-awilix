@@ -85,14 +85,6 @@
     "control",
     "awilix"
   ],
-  "files": [
-    "README.md",
-    "LICENSE",
-    "index.js",
-    "lib/*",
-    "types/index.d.ts",
-    "!types/index.tst.ts"
-  ],
   "publishConfig": {
     "access": "public"
   }
